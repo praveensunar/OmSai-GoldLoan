@@ -48,7 +48,9 @@ function Home() {
       </div>
 
       {/* Right Section (Image) */}
-      
+      <div>
+        <img src="logo.png" alt="logo" className='w-full '  />
+      </div>
     </div>
   );
 }

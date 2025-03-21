@@ -14,8 +14,10 @@ function Landing() {
       ></video>
 
       {/* Content Overlay (Optional) */}
-      <div className="absolute inset-0 flex justify-center items-center bg-black/40">
-        <h1 className="text-cyan-300/50 text-3xl md:text-5xl font-bold">Welcome to Our Website</h1>
+      <div className="absolute inset-0 flex flex-col justify-center items-center bg-black/40">
+        <h1 className="text-[#cae2e2] text-3xl md:text-6xl font-bold my-3">Welcome to Our Website</h1>
+
+        <h2 className='text-[#f9eed2] text-xl md:text-2xl font-bold'>Gold Loan</h2>
       </div>
     </div>
   );

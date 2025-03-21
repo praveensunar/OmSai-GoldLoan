@@ -13,12 +13,12 @@ function Navbar() {
                    location.pathname.startsWith("/customer/");
 
   return (
-    <nav className="bg-gray-600 w-full px-6 md:px-10 py-3 shadow-md">
+    <nav className="bg-[#9C8E6B] w-full px-6 md:px-10 py-3 shadow-md">
       <div className="flex justify-between items-center">
         {/* Logo Section */}
         <div className="cursor-pointer">
-          <h2 className="font-[500] text-xl text-amber-500/50">
-            <span className="font-[800] text-3xl text-gray-700">OmSai</span> goldloan
+          <h2 className="font-[500] text-xl text-[#f7c761]">
+            <span className="font-[800] text-4xl text-[#2d2a2a] font-serif">OmSai</span>goldloan
           </h2>
         </div>
 

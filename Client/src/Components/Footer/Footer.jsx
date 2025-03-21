@@ -4,19 +4,19 @@ import { FaLocationDot } from "react-icons/fa6";
 
 function Footer() {
   return (
-    <footer className="flex flex-col items-center bg-gray-600 text-white p-4 md:p-8 w-full">
+    <footer className="flex flex-col items-center bg-black text-white p-4 md:p-4 w-full">
       {/* Contact Details */}
       <div className="text-center mb-6 px-4">
         <h3 className="text-xl md:text-2xl font-bold">Contact Us</h3>
-        <p className="text-base md:text-lg font-medium">Email: omsai7773@gmail.com</p>
-        <p className="text-base md:text-lg font-medium">Phone: 9902737773</p>
-        <p className="text-base md:text-lg font-medium max-w-lg mx-auto">
+        <p className="text-base md:text-sm font-medium">Email: omsai7773@gmail.com</p>
+        <p className="text-base md:text-sm font-medium">Phone: 9902737773</p>
+        <p className="text-base md:text-sm font-medium max-w-lg mx-auto">
           Address: NEAR S.S.PATIL Function Hall Complex, Manna-E-Khelli Main Road, KAMTHANA TQ. DIST-BIDAR 585226
         </p>
       </div>
 
       {/* Social Media Links */}
-      <div className="mb-5 w-full text-center">
+      <div className=" w-full text-center">
         <ul className="flex flex-wrap justify-center items-center gap-6 md:gap-10 text-3xl mb-5">
           <a href="https://www.instagram.com/your_instagram_handle" 
              target="_blank" rel="noopener noreferrer"
@@ -41,7 +41,7 @@ function Footer() {
         </ul>
         
         {/* Copyright Section */}
-        <p className="text-sm md:text-base font-medium">
+        <p className="text-[12px] md:text-[14px] font-medium">
           © {new Date().getFullYear()} Gold Loan Services. All Rights Reserved.
         </p>
       </div>
