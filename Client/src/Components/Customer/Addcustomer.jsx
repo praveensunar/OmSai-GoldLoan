@@ -20,7 +20,7 @@ function Addcustomer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/addcustomer', 
+    axios.post('https://omsai-goldloan-backend.onrender.comaddcustomer', 
       {
       name,
       mobile,
