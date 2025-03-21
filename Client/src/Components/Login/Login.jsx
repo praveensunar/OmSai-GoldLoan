@@ -14,7 +14,7 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://omsai-goldloan-backend.onrender.com', { email, password })
+        axios.post('http://localhost:3001/', { email, password })
         .then(result => {
             console.log(result.data);
             if (result.data.message === "success") {

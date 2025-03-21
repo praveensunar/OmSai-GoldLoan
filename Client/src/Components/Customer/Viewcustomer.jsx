@@ -15,7 +15,7 @@ function Viewcustomer() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`https://omsai-goldloan-backend.onrender.comcustomer/${id}`)
+        axios.get(`http://localhost:3001/customer/${id}`)
             .then(response => {
                 setCustomer(response.data);
                 setLoading(false);
@@ -64,7 +64,7 @@ function Viewcustomer() {
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
             try {
-                await axios.delete(`https://omsai-goldloan-backend.onrender.comcustomer/${id}`);
+                await axios.delete(`http://localhost:3001/customer/${id}`);
                 alert("Customer deleted successfully!");
                 navigate('/customerdetail'); // Redirect to customer list
             } catch (error) {
