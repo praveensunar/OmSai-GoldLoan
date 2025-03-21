@@ -20,7 +20,7 @@ function Addcustomer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/addcustomer', 
+    axios.post('https://om-sai-gold-loan-api.vercel.app/addcustomer', 
       {
       name,
       mobile,

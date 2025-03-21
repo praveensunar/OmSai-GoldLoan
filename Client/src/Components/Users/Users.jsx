@@ -5,7 +5,7 @@ function Users() {
     const [users, setUsers] = useState([])
 
     useEffect(() =>{
-        axios.get('http://localhost:3001/getusers')
+        axios.get('https://om-sai-gold-loan-api.vercel.app/getusers')
         .then(users => setUsers(users.data)) 
         .catch(error => console.log(error))
     },[]);
