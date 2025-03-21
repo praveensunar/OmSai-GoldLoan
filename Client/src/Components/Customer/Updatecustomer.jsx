@@ -10,7 +10,7 @@ function UpdateCustomer() {
     const [customer, setCustomer] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://om-sai-gold-loan-api.vercel.app/customer/${id}`)
+        axios.get(`http://localhost:3001/customer/${id}`)
             .then(response => setCustomer(response.data))
             .catch(error => console.error("Error fetching customer:", error));
     }, [id]);
@@ -21,7 +21,7 @@ function UpdateCustomer() {
     };
 
     const handleUpdate = () => {
-        axios.put(`https://om-sai-gold-loan-api.vercel.app/updatecustomer/${id}`, customer)
+        axios.put(`http://localhost:3001/updatecustomer/${id}`, customer)
             .then(() => {
                 console.log("Customer updated successfully");
                 navigate(`/customer/${id}`); // Redirect to View Customer page

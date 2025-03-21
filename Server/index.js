@@ -6,23 +6,10 @@ const GoldloancustomerModel = require('./models/Customer');
  
 const app = express();
 
-app.use(cors({
-    origin: ["http://localhost:3000"],
-    methods: ['GET', 'POST'],
-    credentials: true
-    }
-));
+
 app.use(express.json())
-
-
 app.use(cors());
- const url = `mongodb+srv://user2000:praveen123@cluster0.usl4p.mongodb.net/goldloan?retryWrites=true&w=majority&appName=Cluster0`;
-
-app.get("/", (req, res) => {
-    res.json("Hello");
-})
-
-
+ const url = `mongodb+srv://user2000:praveen123@cluster0.usl4p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
 // const url = "mongodb://localhost:27017/goldloan"
@@ -109,5 +96,3 @@ app.delete('/customer/:id', async (req, res) => {
 app.listen(3001,() => {
     console.log("🎉 ✨ Server is running on port 3001 🚀");
 });
-
-

@@ -14,7 +14,7 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://om-sai-gold-loan-api.vercel.app/', { email, password })
+        axios.post('http://localhost:3001/', { email, password })
         .then(result => {
             console.log(result.data);
             if (result.data.message === "success") {

@@ -15,7 +15,7 @@ function Viewcustomer() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`https://om-sai-gold-loan-api.vercel.app/customer/${id}`)
+        axios.get(`http://localhost:3001/customer/${id}`)
             .then(response => {
                 setCustomer(response.data);
                 setLoading(false);
@@ -64,7 +64,7 @@ function Viewcustomer() {
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
             try {
-                await axios.delete(`https://om-sai-gold-loan-api.vercel.app/customer/${id}`);
+                await axios.delete(`http://localhost:3001/customer/${id}`);
                 alert("Customer deleted successfully!");
                 navigate('/customerdetail'); // Redirect to customer list
             } catch (error) {
