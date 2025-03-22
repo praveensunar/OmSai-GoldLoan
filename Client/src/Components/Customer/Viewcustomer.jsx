@@ -116,7 +116,7 @@ function Viewcustomer() {
     Update
 </Link>
                 <button onClick={handleCalculate} className="bg-green-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-green-600">
-                    <MdOutlineCalculate />
+                    calculate
                 </button>
                 <button onClick={handleDelete} className="bg-red-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-red-600">
                     <RiDeleteBin6Fill />
