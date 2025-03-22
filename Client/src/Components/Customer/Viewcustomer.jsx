@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MdBackspace } from "react-icons/md";
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { MdOutlineCalculate } from "react-icons/md";
+// import { MdOutlineCalculate } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import axios from 'axios';
 

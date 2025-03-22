@@ -18,10 +18,9 @@ function Navbar() {
         {/* Logo Section */}
         <div className="cursor-pointer">
           <h2 className="font-[500] text-xl text-[#f7c761]">
-            <span className="font-[800] text-4xl text-[#2d2a2a] font-serif">OmSai</span>goldloan
+            <span className="font-[800] text-4xl text-[#2d2a2a] font-serif">OmSai</span> gold loan
           </h2>
         </div>
-
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-5 text-xl font-[700] uppercase">
           <Link to="/" className="hover:text-gray-300">Home</Link>
