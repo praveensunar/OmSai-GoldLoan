@@ -14,7 +14,7 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/register', { name, email, password, phone })
+        axios.post('https://omsai-goldloan.onrender.com/register', { name, email, password, phone })
             .then(result => {
                 console.log(result);
                 navigate('/login');

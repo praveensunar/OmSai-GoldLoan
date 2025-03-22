@@ -5,7 +5,7 @@ function Users() {
     const [users, setUsers] = useState([])
 
     useEffect(() =>{
-        axios.get('http://localhost:3001/getusers')
+        axios.get('https://omsai-goldloan.onrender.com/getusers')
         .then(users => setUsers(users.data)) 
         .catch(error => console.log(error))
     },[]);
