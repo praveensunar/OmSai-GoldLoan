@@ -18,7 +18,7 @@ function Login() {
         .then(result => {
             console.log(result.data);
             if (result.data.message === "success") {
-                alert("Success login");
+                // alert("Success login");
                 navigate("/home");
             } else if (result.data.message === "Incorrect Password") {
                 alert("Incorrect Password");
