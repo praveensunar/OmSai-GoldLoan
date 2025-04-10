@@ -72,7 +72,7 @@ function UpdateCustomer() {
 
             <div className="flex gap-4 mt-5">
                 <Link to={`/customer/${id}`} className="bg-gray-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-gray-600"><MdBackspace /></Link>
-                <button onClick={handleUpdate} className="bg-blue-500 text-white px-4 py-3 text-xl rounded-lg shadow-md font-[500] hover:bg-blue-600">save</button>
+                <button onClick={handleUpdate} className="bg-blue-500 text-white px-4 py-3 text-xl rounded-lg shadow-md font-[500] hover:bg-blue-600">Save</button>
             </div>
         </div>
     );

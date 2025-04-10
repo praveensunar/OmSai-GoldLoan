@@ -112,13 +112,13 @@ function Viewcustomer() {
                 <Link to="/customerdetail" className="bg-gray-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-gray-600">
                     <MdBackspace />
                 </Link>
-                <Link to={`/updatecustomer/${customer._id}`} className="bg-blue-500 text-white px-5 py-3 rounded-lg shadow-md hover:bg-blue-600">
+                <Link to={`/updatecustomer/${customer._id}`} className="bg-blue-500 text-white px-5 py-3 text-xl rounded-lg shadow-md hover:bg-blue-600">
     Update
 </Link>
-                <button onClick={handleCalculate} className="bg-green-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-green-600">
-                    calculate
+                <button onClick={handleCalculate} className="bg-green-500 text-white px-5 py-3 text-xl rounded-lg shadow-md hover:bg-green-600">
+                    Calculate
                 </button>
-                <button onClick={handleDelete} className="bg-red-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-red-600">
+                <button onClick={handleDelete} className="bg-red-500 text-white px-5 py-3 text-xl rounded-lg shadow-md hover:bg-red-600">
                     <RiDeleteBin6Fill />
                 </button>
             </div>

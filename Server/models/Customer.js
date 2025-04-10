@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 
 const CustomerSchema = new mongoose.Schema({
     name: String,
-    mobile: String,
+    mobile:{
+        type: 'String',
+        unique:true,
+    },
     address: String,
     loanDate: String,
     loanAmount: String,
@@ -11,6 +14,6 @@ const CustomerSchema = new mongoose.Schema({
     itemWeight: String,
     status: String,
     imageUrl: String,
-})
+},{timestamps:true})
 const GoldloancustomerModel = mongoose.model("Goldloancustomers",CustomerSchema)
 module.exports = GoldloancustomerModel

@@ -15,7 +15,7 @@ function Addcustomer() {
   const [status, setStatus] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('https://omsai-goldloan.onrender.com/addcustomer', 
@@ -24,7 +24,7 @@ function Addcustomer() {
         alert("Customer added successfully");
         navigate('/customerdetail');
       })
-      .catch(error => console.log(error));
+      .catch(error => alert("Mobile no is already used"));
   };
 
   const handleFileUpload = async (event) => {

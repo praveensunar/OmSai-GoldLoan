@@ -53,8 +53,9 @@ app.post('/',(req,res)=>{
 
 app.get('/customerdetail',(req,res)=>{
     GoldloancustomerModel.find(req.body)
+    
    .then(GoldloanCustomers=>res.json(GoldloanCustomers))
-   .catch(err=>res.json(err));
+   .catch(err=>res.res("invalid details"+err.message));
 })
 
 app.get('/customer/:id', async (req, res) => {
