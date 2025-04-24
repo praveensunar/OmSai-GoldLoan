@@ -87,7 +87,7 @@ function Viewcustomer() {
                 <h3 className="text-3xl font-bold text-gray-600 mb-3 text-center capitalize">{customer.name}</h3>
 
                 <div className="flex justify-center mb-4">
-                    <img src={customer.imageUrl} alt="Uploaded Item" className="w-50 h-50 object-cover rounded-lg shadow-md" />
+                    <img src={customer.imageUrl} alt="Uploaded Item" className="w-80 h-80 object-cover rounded-lg shadow-md" />
                 </div>
 
                 <div className="space-y-2 text-gray-700 m-5">
