@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const AdminModule =require('./models/Admin');
 const GoldloancustomerModel = require('./models/Customer');
+const jwt = require("jsonwebtoken")
  
 const app = express();
 
 
 app.use(express.json())
 app.use(cors());
- const url = `mongodb+srv://user2000:praveen123@cluster0.usl4p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const url = `mongodb+srv://user2000:praveen123@cluster0.usl4p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
 // const url = "mongodb://localhost:27017/goldloan"
@@ -29,6 +30,7 @@ app.post('/addcustomer',(req,res)=>{
 
 
 app.post('/',(req,res)=>{
+    try{
     const {email,password} = req.body;
     AdminModule.findOne({email:email})
     .then(user =>{
@@ -42,7 +44,12 @@ app.post('/',(req,res)=>{
         }else{
             res.json({message: "User not found"})
         }
+        const token = jwt.sign({id:user._id},"secretkey@123",{expiresIn:'2d'});
     })
+}
+catch{
+
+}
 })
 // app.get('/getusers',(req,res)=>{
 //     AdminModule.find(req.body)

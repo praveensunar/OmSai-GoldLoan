@@ -9,7 +9,7 @@ function Footer() {
       <div className="text-center mb-6 px-4">
         <h3 className="text-xl md:text-2xl font-bold">Contact Us</h3>
         <p className="text-base md:text-sm font-medium">Email: omsai7773@gmail.com</p>
-        <p className="text-base md:text-sm font-medium">Phone: 9902737773</p>
+        <p className="text-base md:text-sm font-medium">Phone: 9900828269</p>
         <p className="text-base md:text-sm font-medium max-w-lg mx-auto">
           Address: NEAR S.S.PATIL Function Hall Complex, Manna-E-Khelli Main Road, KAMTHANA TQ. DIST-BIDAR 585226
         </p>
@@ -23,7 +23,7 @@ function Footer() {
              className="hover:text-blue-400/50 transition duration-300">
             <FaInstagram />
           </a>
-          <a href="https://wa.me/919902737773" 
+          <a href="https://wa.me/919900828269" 
              target="_blank" rel="noopener noreferrer"
              className="hover:text-blue-400/50 transition duration-300">
             <FaWhatsapp />
