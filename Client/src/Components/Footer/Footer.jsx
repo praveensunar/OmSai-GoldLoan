@@ -8,7 +8,7 @@ function Footer() {
       {/* Contact Details */}
       <div className="text-center mb-6 px-4">
         <h3 className="text-xl md:text-2xl font-bold">Contact Us</h3>
-        <p className="text-base md:text-sm font-medium">Email: omsai7773@gmail.com</p>
+        <p className="text-base md:text-sm font-medium">Email: omsaijewellers7773@gmail.com</p>
         <p className="text-base md:text-sm font-medium">Phone: 9900828269</p>
         <p className="text-base md:text-sm font-medium max-w-lg mx-auto">
           Address: NEAR S.S.PATIL Function Hall Complex, Manna-E-Khelli Main Road, KAMTHANA TQ. DIST-BIDAR 585226

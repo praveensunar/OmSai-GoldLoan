@@ -54,12 +54,15 @@ function UpdateCustomer() {
                     <label>Item Weight:
                         <input type="text" name="itemWeight" value={customer.itemWeight} onChange={handleChange} className="w-full p-2 border rounded" />
                     </label>
-                    <label>Status:
+                    {/* <label>Status:
                         <select name="status" value={customer.status} onChange={handleChange} className="w-full p-2 border rounded">
                             <option value="Active">Active</option>
                             <option value="Pending">Pending</option>
                             <option value="Completed">Completed</option>
                         </select>
+                    </label> */}
+                    <label>completed Date:
+                        <input type="date" name="status" value={customer.status} onChange={handleChange} className="w-full p-2 border rounded text-red-500" />
                     </label>
                     <label>Interest Rate:
                         <input type="text" name="interestRate" value={customer.interestRate} onChange={handleChange} className="w-full p-2 border rounded" />

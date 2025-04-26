@@ -85,11 +85,16 @@ function CustomerDetail() {
                             filteredCustomers.map((customer, index) => (
                                 <tr className='border-b hover:bg-gray-100 text-center' key={customer._id}>
                                     <td className='py-3 px-4'>{String(index + 1).padStart(2, '0')}</td>
-                                    <td className='py-3 px-4 capitalize'>{customer.name}</td>
+                                    <td className='py-3 px-4 capitalize text-left'>{customer.name}</td>
                                     <td className='py-3 px-4'>{customer.mobile}</td>
-                                    <td className='py-3 px-4'>{customer.loanDate}</td>
-                                    <td className='py-3 px-4'>₹ {customer.loanAmount}</td>
-                                    <td className='py-3 px-4'>{customer.status}</td>
+                                    <td className='py-3 px-4 text-left '>{customer.loanDate}</td>
+                                    <td className='py-3 px-4 text-center'>₹ {customer.loanAmount}</td>
+                                    <td  className={!isNaN(Date.parse(customer.status))
+                                    ?'text-red-500 font-[500]'
+                                    : customer.status.toLowerCase() === 'active'
+                                    ? 'text-green-600 font-[600]'
+                                    : 'font-[500]'}>
+                                    {customer.status}</td>
                                     <td className='py-3 px-4'>
                                         <Link to={`/customer/${customer._id}`} className="bg-blue-400 text-white px-3 py-1 rounded-lg hover:bg-blue-600">VIEW</Link>
                                     </td>

@@ -12,6 +12,8 @@ function Viewcustomer() {
     const [error, setError] = useState(null); // ✅ Add error state
     const [totalAmount, setTotalAmount] = useState(null);
     const [totalInterest, setTotalInterest] = useState(null);
+    const [elapsedTime, setElapsedTime] = useState(null);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,38 +30,79 @@ function Viewcustomer() {
     }, [id]); 
 
 
+    // const handleCalculate = () => {
+    //     if (customer) {
+    //         const loanAmount = Number(customer.loanAmount) || 0;
+    //         const interestRate = Number(customer.interestRate) / 100 || 0;
+            
+    //         // Convert loanDate safely
+    //         let loanDate = new Date(customer.loanDate);
+            
+    //         // Handle cases where loanDate is stored as a string
+    //         if (typeof customer.loanDate === "string" && !isNaN(Date.parse(customer.loanDate))) {
+    //             loanDate = new Date(Date.parse(customer.loanDate)); 
+    //         }
+    
+    //         if (isNaN(loanDate.getTime())) { // Check if valid date
+    //             console.error("Invalid loanDate format:", customer.loanDate);
+    //             setTotalInterest("Invalid Date");
+    //             setTotalAmount("Invalid Date");
+    //             return;
+    //         }
+    
+    //         const currentDate = new Date();
+    //         const monthsElapsed = 
+    //             (currentDate.getFullYear() - loanDate.getFullYear()) * 12 + 
+    //             (currentDate.getMonth() - loanDate.getMonth());
+    
+    //         const totalInterest = loanAmount * interestRate * monthsElapsed;
+    //         const total = loanAmount + totalInterest;
+    
+    //         setTotalAmount(total.toFixed(2));
+    //         setTotalInterest(totalInterest.toFixed(2));
+    //     }
+    // };
+
     const handleCalculate = () => {
         if (customer) {
             const loanAmount = Number(customer.loanAmount) || 0;
             const interestRate = Number(customer.interestRate) / 100 || 0;
-            
-            // Convert loanDate safely
+    
             let loanDate = new Date(customer.loanDate);
-            
-            // Handle cases where loanDate is stored as a string
+    
             if (typeof customer.loanDate === "string" && !isNaN(Date.parse(customer.loanDate))) {
                 loanDate = new Date(Date.parse(customer.loanDate)); 
             }
     
-            if (isNaN(loanDate.getTime())) { // Check if valid date
+            if (isNaN(loanDate.getTime())) {
                 console.error("Invalid loanDate format:", customer.loanDate);
                 setTotalInterest("Invalid Date");
                 setTotalAmount("Invalid Date");
+                setElapsedTime(null);
                 return;
             }
     
             const currentDate = new Date();
-            const monthsElapsed = 
-                (currentDate.getFullYear() - loanDate.getFullYear()) * 12 + 
-                (currentDate.getMonth() - loanDate.getMonth());
+            const timeDiff = currentDate - loanDate;
+            const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const fullMonths = Math.floor(totalDays / 30);
+            const remainingDays = totalDays % 30;
     
-            const totalInterest = loanAmount * interestRate * monthsElapsed;
+            // 🟢 Adjust interest months:
+            let monthsForInterest = fullMonths;
+            if (fullMonths === 0 && remainingDays > 7) {
+                monthsForInterest = 1;
+            }
+    
+            const totalInterest = loanAmount * interestRate * monthsForInterest;
             const total = loanAmount + totalInterest;
     
+            setElapsedTime(`${fullMonths} month${fullMonths !== 1 ? 's' : ''} ${remainingDays} day${remainingDays !== 1 ? 's' : ''}`);
             setTotalAmount(total.toFixed(2));
             setTotalInterest(totalInterest.toFixed(2));
         }
     };
+    
     
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
@@ -87,19 +130,28 @@ function Viewcustomer() {
                 <h3 className="text-3xl font-bold text-gray-600 mb-3 text-center capitalize">{customer.name}</h3>
 
                 <div className="flex justify-center mb-4">
-                    <img src={customer.imageUrl} alt="Uploaded Item" className="w-80 h-80 object-cover rounded-lg shadow-md" />
+                    <img src={customer.imageUrl} alt="Uploaded Item" className="w-85 h-85 object-cover rounded-lg shadow-md" />
                 </div>
 
                 <div className="space-y-2 text-gray-700 m-5">
-                <p key={customer._id}> <strong>Customer Id: </strong>{customer._id}</p>
+                <p key={customer._id}> <strong>Customer Id: </strong>{String(parseInt(customer._id.slice(-3), 16)).toString().padStart(3, '0')}</p>
                     <p className='capitalize'><strong>Customer Name:</strong> {customer.name}</p>
                     <p className='capitalize'><strong>Address:</strong> {customer.address}</p>
                     <p><strong>Mobile:</strong> {customer.mobile}</p>
                     <p><strong>Loan Date:</strong> {customer.loanDate}</p>
                     <p className='capitalize'><strong>Item Name:</strong> {customer.itemName} </p>
                     <p><strong>Item Weight:</strong> {customer.itemWeight} gram</p>
-                    <p><strong>Status:</strong> {customer.status}</p>
-                    <p><strong>Interest Rate:</strong> {customer.interestRate}%</p>
+                    {/* <p><strong>Status:</strong> {customer.status}</p> */}
+                    <p><strong>Status:</strong>{' '}
+                     <span className={!isNaN(Date.parse(customer.status))
+    ? 'text-red-500 font-[500]'
+    : customer.status.toLowerCase() === 'active'
+      ? 'text-green-600 font-[600]'
+      : 'font-[500]'}>{customer.status}</span>
+                    </p>
+                    <div className='flex  justify-between'>
+                    <p><strong>Interest Rate:</strong> {customer.interestRate}%</p> <p><strong>No of Days: </strong>{elapsedTime ? elapsedTime : '00'}</p>
+                    </div>
                     <hr className="my-2"/>
                     <p><strong>Loan Amount:</strong> ₹ {customer.loanAmount}</p>
                     <p><strong>Interest Amount:</strong> ₹ {totalInterest !== null ? totalInterest : ''}</p>
