@@ -4,6 +4,9 @@ import { TiUserAddOutline } from "react-icons/ti";
 import { RiAdminFill } from "react-icons/ri";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Home() {
   const navigate = useNavigate();
@@ -12,11 +15,13 @@ function Home() {
   const handleLogout = () => {
     localStorage.removeItem("userToken"); // Clear token (or any auth data)
     sessionStorage.removeItem("userSession"); // Clear session data (if any)
-    alert("You have been logged out successfully!");
-    navigate("/"); // Redirect to login page
+    toast("You have been logged out successfully!");
+setTimeout(() => {
+  navigate("/");
+}, 1500); // Redirect to login page
   };
 
-  return (
+  return (<>
     <div className="flex flex-col md:flex-row items-center justify-center min-h-[70vh] p-5 bg-gray-100">
       {/* Left Section */}
       <div className="w-full md:w-1/2 flex flex-col items-center gap-6 text-center">
@@ -51,7 +56,10 @@ function Home() {
       <div>
         <img src="logo.png" alt="logo" className='w-full '  />
       </div>
+      
     </div>
+    <ToastContainer />
+    </>
   );
 }
 

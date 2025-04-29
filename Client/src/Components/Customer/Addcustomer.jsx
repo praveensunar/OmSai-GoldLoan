@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GiShakingHands } from "react-icons/gi";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Addcustomer() {
   const [name, setName] = useState("");
@@ -21,10 +23,10 @@ function Addcustomer() {
     axios.post('https://omsai-goldloan.onrender.com/addcustomer', 
       { name, mobile, address, loanDate, loanAmount, interestRate, itemName, itemWeight, status, imageUrl })
       .then(result => {
-        alert("Customer added successfully");
+        toast("Customer added successfully");
         navigate('/customerdetail');
       })
-      .catch(error => alert("Mobile no is already used"));
+      .catch(error => toast("Mobile no is already used"));
   };
 
   const handleFileUpload = async (event) => {
@@ -81,6 +83,7 @@ function Addcustomer() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }

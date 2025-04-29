@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { MdBackspace } from "react-icons/md";
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// import { MdOutlineCalculate } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Viewcustomer() {
-    const { id } = useParams();  // ✅ Get the correct customer ID
-    const [customer, setCustomer] = useState(null);  // ✅ Fix initial state
-    const [loading, setLoading] = useState(true); // ✅ Add loading state
-    const [error, setError] = useState(null); // ✅ Add error state
+    const { id } = useParams();
+    const [customer, setCustomer] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [totalAmount, setTotalAmount] = useState(null);
     const [totalInterest, setTotalInterest] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(null);
@@ -22,102 +23,65 @@ function Viewcustomer() {
                 setCustomer(response.data);
                 setLoading(false);
             })
-            .catch(error => {
-                // console.error("Error fetching customer:", error);
+            .catch(() => {
                 setError("Failed to fetch customer.");
+                toast.error("Failed to fetch customer details.");
                 setLoading(false);
             });
-    }, [id]); 
-
-
-    // const handleCalculate = () => {
-    //     if (customer) {
-    //         const loanAmount = Number(customer.loanAmount) || 0;
-    //         const interestRate = Number(customer.interestRate) / 100 || 0;
-            
-    //         // Convert loanDate safely
-    //         let loanDate = new Date(customer.loanDate);
-            
-    //         // Handle cases where loanDate is stored as a string
-    //         if (typeof customer.loanDate === "string" && !isNaN(Date.parse(customer.loanDate))) {
-    //             loanDate = new Date(Date.parse(customer.loanDate)); 
-    //         }
-    
-    //         if (isNaN(loanDate.getTime())) { // Check if valid date
-    //             console.error("Invalid loanDate format:", customer.loanDate);
-    //             setTotalInterest("Invalid Date");
-    //             setTotalAmount("Invalid Date");
-    //             return;
-    //         }
-    
-    //         const currentDate = new Date();
-    //         const monthsElapsed = 
-    //             (currentDate.getFullYear() - loanDate.getFullYear()) * 12 + 
-    //             (currentDate.getMonth() - loanDate.getMonth());
-    
-    //         const totalInterest = loanAmount * interestRate * monthsElapsed;
-    //         const total = loanAmount + totalInterest;
-    
-    //         setTotalAmount(total.toFixed(2));
-    //         setTotalInterest(totalInterest.toFixed(2));
-    //     }
-    // };
+    }, [id]);
 
     const handleCalculate = () => {
         if (customer) {
             const loanAmount = Number(customer.loanAmount) || 0;
             const interestRate = Number(customer.interestRate) / 100 || 0;
-    
             let loanDate = new Date(customer.loanDate);
-    
+
             if (typeof customer.loanDate === "string" && !isNaN(Date.parse(customer.loanDate))) {
-                loanDate = new Date(Date.parse(customer.loanDate)); 
+                loanDate = new Date(Date.parse(customer.loanDate));
             }
-    
+
             if (isNaN(loanDate.getTime())) {
-                console.error("Invalid loanDate format:", customer.loanDate);
+                toast.error("Invalid loan date format.");
                 setTotalInterest("Invalid Date");
                 setTotalAmount("Invalid Date");
                 setElapsedTime(null);
                 return;
             }
-    
+
             const currentDate = new Date();
             const timeDiff = currentDate - loanDate;
             const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
             const fullMonths = Math.floor(totalDays / 30);
             const remainingDays = totalDays % 30;
-    
-            // 🟢 Adjust interest months:
+
             let monthsForInterest = fullMonths;
             if (fullMonths === 0 && remainingDays > 7) {
                 monthsForInterest = 1;
             }
-    
+
             const totalInterest = loanAmount * interestRate * monthsForInterest;
             const total = loanAmount + totalInterest;
-    
+
             setElapsedTime(`${fullMonths} month${fullMonths !== 1 ? 's' : ''} ${remainingDays} day${remainingDays !== 1 ? 's' : ''}`);
             setTotalAmount(total.toFixed(2));
             setTotalInterest(totalInterest.toFixed(2));
+
+            toast.success("Interest calculation completed.");
         }
     };
-    
-    
+
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
             try {
                 await axios.delete(`https://omsai-goldloan.onrender.com/customer/${id}`);
-                alert("Customer deleted successfully!");
-                navigate('/customerdetail'); // Redirect to customer list
+                toast.success("Customer deleted successfully!");
+                setTimeout(() => navigate('/customerdetail'), 1500);
             } catch (error) {
                 console.error("Error deleting customer:", error);
-                alert("Failed to delete customer.");
+                toast.error("Failed to delete customer.");
             }
         }
     };
-    
-    
 
     if (loading) return <p className="text-center text-gray-600">Loading customer details...</p>;
     if (error) return <p className="text-center text-red-600">{error}</p>;
@@ -134,25 +98,27 @@ function Viewcustomer() {
                 </div>
 
                 <div className="space-y-2 text-gray-700 m-5">
-                <p key={customer._id}> <strong>Customer Id: </strong>{String(parseInt(customer._id.slice(-3), 16)).toString().padStart(3, '0')}</p>
+                    <p><strong>Customer Id: </strong>{String(parseInt(customer._id.slice(-3), 16)).toString().padStart(3, '0')}</p>
                     <p className='capitalize'><strong>Customer Name:</strong> {customer.name}</p>
                     <p className='capitalize'><strong>Address:</strong> {customer.address}</p>
                     <p><strong>Mobile:</strong> {customer.mobile}</p>
                     <p><strong>Loan Date:</strong> {customer.loanDate}</p>
-                    <p className='capitalize'><strong>Item Name:</strong> {customer.itemName} </p>
+                    <p className='capitalize'><strong>Item Name:</strong> {customer.itemName}</p>
                     <p><strong>Item Weight:</strong> {customer.itemWeight} gram</p>
-                    {/* <p><strong>Status:</strong> {customer.status}</p> */}
-                    <p><strong>Status:</strong>{' '}
-                     <span className={!isNaN(Date.parse(customer.status))
-    ? 'text-red-500 font-[500]'
-    : customer.status.toLowerCase() === 'active'
-      ? 'text-green-600 font-[600]'
-      : 'font-[500]'}>{customer.status}</span>
-                    </p>
-                    <div className='flex  justify-between'>
-                    <p><strong>Interest Rate:</strong> {customer.interestRate}%</p> <p><strong>No of Days: </strong>{elapsedTime ? elapsedTime : '00'}</p>
+                    <p><strong>Status:</strong> <span className={
+                        !isNaN(Date.parse(customer.status))
+                            ? 'text-red-500 font-[500]'
+                            : customer.status.toLowerCase() === 'active'
+                                ? 'text-green-600 font-[600]'
+                                : 'font-[500]'
+                    }>
+                        {customer.status}
+                    </span></p>
+                    <div className='flex justify-between'>
+                        <p><strong>Interest Rate:</strong> {customer.interestRate}%</p>
+                        <p><strong>No of Days: </strong>{elapsedTime ? elapsedTime : '00'}</p>
                     </div>
-                    <hr className="my-2"/>
+                    <hr className="my-2" />
                     <p><strong>Loan Amount:</strong> ₹ {customer.loanAmount}</p>
                     <p><strong>Interest Amount:</strong> ₹ {totalInterest !== null ? totalInterest : ''}</p>
                     <hr className="my-2" />
@@ -165,8 +131,8 @@ function Viewcustomer() {
                     <MdBackspace />
                 </Link>
                 <Link to={`/updatecustomer/${customer._id}`} className="bg-blue-500 text-white px-5 py-3 text-xl rounded-lg shadow-md hover:bg-blue-600">
-    Update
-</Link>
+                    Update
+                </Link>
                 <button onClick={handleCalculate} className="bg-green-500 text-white px-5 py-3 text-xl rounded-lg shadow-md hover:bg-green-600">
                     Calculate
                 </button>
@@ -174,6 +140,8 @@ function Viewcustomer() {
                     <RiDeleteBin6Fill />
                 </button>
             </div>
+
+            <ToastContainer />
         </div>
     );
 }
