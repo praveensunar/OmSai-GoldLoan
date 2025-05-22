@@ -23,7 +23,7 @@ function Navbar() {
         </div>
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-5 text-xl font-[700] uppercase">
-          <Link to="/" className="hover:text-gray-300">Home</Link>
+          <Link to="/home" className="hover:text-gray-300">Home</Link>
           <Link to="#" className="hover:text-gray-300">About Us</Link>
           <Link to="#" className="hover:text-gray-300">Services</Link>
           {!isHidden && <Link to="/login" className="hover:text-gray-300">Admin</Link>}
