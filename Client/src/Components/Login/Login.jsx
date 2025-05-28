@@ -4,14 +4,15 @@ import { IoLogInOutline } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'; 
+import { FaSpinner } from 'react-icons/fa';
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -22,9 +23,9 @@ function Login() {
 
         if (result.data.message === "success") {
           toast.success("Login successful!");
-          setTimeout(() => navigate("/home"), 2000);
+          setTimeout(() => navigate("/home"), 1000);
         } else if (result.data.message === "Incorrect Password") {
-          toast.error("Incorrect Password");
+           toast.error("Incorrect Password");
         } else {
           toast.error("Login failed. Please check your credentials.");
         }
@@ -83,7 +84,14 @@ function Login() {
               loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600/60 hover:bg-blue-400 hover:scale-105'
             }`}
           >
-            {loading ? "Logging in..." : <><IoLogInOutline /> Login</>}
+            {loading ? (
+  <FaSpinner className="animate-spin text-2xl" />
+) : (
+  <>
+    <IoLogInOutline /> Login
+  </>
+)}
+
           </button>
         </form>
       </div>

@@ -4,15 +4,11 @@ const cors = require('cors');
 const AdminModule =require('./models/Admin');
 const GoldloancustomerModel = require('./models/Customer');
 const jwt = require("jsonwebtoken")
- 
+
 const app = express();
-
-
 app.use(express.json())
 app.use(cors());
 const url = `mongodb+srv://user2000:praveen123@cluster0.usl4p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
-
 // const url = "mongodb://localhost:27017/goldloan"
 mongoose.connect(url);
 app.post('/register',(req,res)=>{
@@ -20,15 +16,11 @@ app.post('/register',(req,res)=>{
     .then(Admin=>res.json(Admin))
     .catch(err=>res.status(400).json(err));
 })
-
-
 app.post('/addcustomer',(req,res)=>{
     GoldloancustomerModel.create(req.body)
     .then(GoldloanCustomers=>res.json(GoldloanCustomers))
     .catch(err=>res.status(400).json(err));
 })
-
-
 app.post('/',(req,res)=>{
     try{
     const {email,password} = req.body;
@@ -38,8 +30,7 @@ app.post('/',(req,res)=>{
             if(user.password === password){
                 res.json({message: "success"})
             }else{
-                res.json({message: "Incorrect Password"})
-                
+                res.json({message: "Incorrect Password"})               
             }
         }else{
             res.json({message: "User not found"})
@@ -59,8 +50,7 @@ catch{
 
 
 app.get('/customerdetail',(req,res)=>{
-    GoldloancustomerModel.find(req.body)
-    
+    GoldloancustomerModel.find(req.body) 
    .then(GoldloanCustomers=>res.json(GoldloanCustomers))
    .catch(err=>res.res("invalid details"+err.message));
 })

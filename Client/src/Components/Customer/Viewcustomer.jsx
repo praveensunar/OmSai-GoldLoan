@@ -55,18 +55,17 @@ function Viewcustomer() {
             const remainingDays = totalDays % 30;
 
             let monthsForInterest = fullMonths;
-            if (fullMonths === 0 && remainingDays > 7) {
-                monthsForInterest = 1;
+            if (remainingDays > 0) {
+                monthsForInterest += 1;
             }
-
             const totalInterest = loanAmount * interestRate * monthsForInterest;
             const total = loanAmount + totalInterest;
 
-            setElapsedTime(`${fullMonths} month${fullMonths !== 1 ? 's' : ''} ${remainingDays} day${remainingDays !== 1 ? 's' : ''}`);
+            setElapsedTime(`${fullMonths} M${fullMonths !== 1 ? 's' : ''} ${remainingDays} D${remainingDays !== 1 ? 's' : ''}`);
             setTotalAmount(total.toFixed(2));
             setTotalInterest(totalInterest.toFixed(2));
 
-            toast.success("Interest calculation completed.");
+            // toast.success("Interest calculation completed.");
         }
     };
 

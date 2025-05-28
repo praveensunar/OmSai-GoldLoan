@@ -18,7 +18,7 @@ function Home() {
     toast("You have been logged out successfully!");
 setTimeout(() => {
   navigate("/");
-}, 1500); // Redirect to login page
+}, 1000); // Redirect to login page
   };
 
   return (<>
