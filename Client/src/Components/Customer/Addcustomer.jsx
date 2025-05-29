@@ -16,6 +16,7 @@ function Addcustomer() {
   const [itemWeight, setItemweight] = useState("");
   const [status, setStatus] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
   const navigate = useNavigate();
  
   const handleSubmit = (e) => {
@@ -38,18 +39,24 @@ function Addcustomer() {
     data.append("cloud_name", "praveensunar");
 
     try {
-      const res = await fetch("https://api.cloudinary.com/v1_1/praveensunar/image/upload", {
-        method: "POST",
-        body: data
-      });
-      const uploaded = await res.json();
-      if (uploaded.url) {
-        setImageUrl(uploaded.url);
+    const res = await axios.post("https://api.cloudinary.com/v1_1/praveensunar/image/upload", data, {
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setUploadProgress(percent);
       }
-    } catch (err) {
-      console.error("Error uploading image:", err);
+    });
+
+    if (res.data.url) {
+      setImageUrl(res.data.url);
+      toast.success("Image uploaded successfully!");
     }
-  };
+  } catch (err) {
+    console.error("Error uploading image:", err);
+    toast.error("Image upload failed.");
+  } finally {
+    setTimeout(() => setUploadProgress(0), 1000); // Reset progress bar after a second
+  }
+};
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 my-5">
@@ -76,6 +83,15 @@ function Addcustomer() {
           </select>
           <label className="text-gray-700 font-medium">Upload Item Image:</label>
           <input onChange={handleFileUpload} type="file" id="myFile" name="filename" className='text-amber-700 bg-white' />
+          {uploadProgress > 0 && (
+  <div className="w-full bg-gray-300 rounded-full h-3 mt-2">
+    <div
+      className="bg-green-500 h-3 rounded-full transition-all duration-200"
+      style={{ width: `${uploadProgress}%` }}
+    ></div>
+  </div>
+)}
+
           {imageUrl && <img src={imageUrl} alt="Uploaded" width="100" className='ml-20 md:ml-40 rounded-xl' />}
           <div className='flex justify-center gap-10 mt-4'>
             <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>

@@ -30,44 +30,51 @@ function Viewcustomer() {
             });
     }, [id]);
 
-    const handleCalculate = () => {
-        if (customer) {
-            const loanAmount = Number(customer.loanAmount) || 0;
-            const interestRate = Number(customer.interestRate) / 100 || 0;
-            let loanDate = new Date(customer.loanDate);
+   const handleCalculate = () => {
+    if (customer) {
+        const loanAmount = Number(customer.loanAmount) || 0;
+        const interestRate = Number(customer.interestRate) / 100 || 0;
+        let loanDate = new Date(customer.loanDate);
 
-            if (typeof customer.loanDate === "string" && !isNaN(Date.parse(customer.loanDate))) {
-                loanDate = new Date(Date.parse(customer.loanDate));
-            }
-
-            if (isNaN(loanDate.getTime())) {
-                toast.error("Invalid loan date format.");
-                setTotalInterest("Invalid Date");
-                setTotalAmount("Invalid Date");
-                setElapsedTime(null);
-                return;
-            }
-
-            const currentDate = new Date();
-            const timeDiff = currentDate - loanDate;
-            const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const fullMonths = Math.floor(totalDays / 30);
-            const remainingDays = totalDays % 30;
-
-            let monthsForInterest = fullMonths;
-            if (remainingDays > 0) {
-                monthsForInterest += 1;
-            }
-            const totalInterest = loanAmount * interestRate * monthsForInterest;
-            const total = loanAmount + totalInterest;
-
-            setElapsedTime(`${fullMonths} M${fullMonths !== 1 ? 's' : ''} ${remainingDays} D${remainingDays !== 1 ? 's' : ''}`);
-            setTotalAmount(total.toFixed(2));
-            setTotalInterest(totalInterest.toFixed(2));
-
-            // toast.success("Interest calculation completed.");
+        if (typeof customer.loanDate === "string" && !isNaN(Date.parse(customer.loanDate))) {
+            loanDate = new Date(Date.parse(customer.loanDate));
         }
-    };
+
+        if (isNaN(loanDate.getTime())) {
+            toast.error("Invalid loan date format.");
+            setTotalInterest("Invalid Date");
+            setTotalAmount("Invalid Date");
+            setElapsedTime(null);
+            return;
+        }
+
+        // 🟡 Use loan closing date if valid, otherwise use current date
+        let endDate = new Date();
+        if (!isNaN(Date.parse(customer.status))) {
+            endDate = new Date(customer.status);
+            toast.info("Loan is closed. Interest calculated until closing date.");
+        }
+
+        // 🧮 Calculate duration
+        const timeDiff = endDate - loanDate;
+        const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const fullMonths = Math.floor(totalDays / 30);
+        const remainingDays = totalDays % 30;
+
+        let monthsForInterest = fullMonths;
+        if (remainingDays > 0) {
+            monthsForInterest += 1;
+        }
+
+        const totalInterest = loanAmount * interestRate * monthsForInterest;
+        const total = loanAmount + totalInterest;
+
+        setElapsedTime(`${fullMonths} M${fullMonths !== 1 ? 's' : ''} ${remainingDays} D${remainingDays !== 1 ? 's' : ''}`);
+        setTotalAmount(total.toFixed(2));
+        setTotalInterest(totalInterest.toFixed(2));
+    }
+};
+
 
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
@@ -92,9 +99,20 @@ function Viewcustomer() {
             <div className="bg-white p-5 rounded-xl shadow-md w-full max-w-lg">
                 <h3 className="text-3xl font-bold text-gray-600 mb-3 text-center capitalize">{customer.name}</h3>
 
-                <div className="flex justify-center mb-4">
+                {/* <div className="flex justify-center mb-4">
                     <img src={customer.imageUrl} alt="Uploaded Item" className="w-85 h-85 object-cover rounded-lg shadow-md" />
+                </div> */}
+
+                <div className="flex justify-center mb-4">
+                    <a href={customer.imageUrl} target="_blank" rel="noopener noreferrer">
+                        <img
+                            src={customer.imageUrl}
+                            alt="Uploaded Item"
+                            className="w-65 h-65 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-200"
+                        />
+                    </a>
                 </div>
+
 
                 <div className="space-y-2 text-gray-700 m-5">
                     <p><strong>Customer Id: </strong>{String(parseInt(customer._id.slice(-3), 16)).toString().padStart(3, '0')}</p>
