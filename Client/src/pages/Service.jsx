@@ -54,19 +54,13 @@ function Service() {
           <p className="text-gray-700 max-w-2xl mx-auto mb-4">
             Whether you're looking for a trustworthy gold loan provider or a beautiful piece of jewellery for a special occasion, Omsai is here to help.
           </p>
-          <Link
-            to="/contact"
+          <Link to="/contact"
             className="inline-block bg-yellow-600 text-white px-6 py-2 rounded-full hover:bg-yellow-700 transition"
-          >
-            Contact Us
-          </Link>
+          >Contact Us</Link>
         </div>
       </div>
     </div>
   );
 };
-
-
-
 
 export default Service
