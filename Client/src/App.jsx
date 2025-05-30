@@ -9,6 +9,9 @@ import CustomerDetail from "./Components/Customer/CustomerDetail";
 import Viewcustomer from "./Components/Customer/Viewcustomer";
 import UpdateCustomer from "./Components/Customer/Updatecustomer";
 import Signup from "./Components/Signup/Signup";
+import About from "./pages/About";
+import Service from "./pages/Service";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
         <Route path="/customerdetail" element={<CustomerDetail />} />
         <Route path="/customer/:id" element={<Viewcustomer />} />
         <Route path="/updatecustomer/:id" element={<UpdateCustomer />} />
+        <Route path="/about" element={<About/>} />
+        <Route path="/service" element={<Service/>}/>
+        <Route path="/contact" element={<Contact/>}/>
       </Routes>
 
       {/* Footer stays visible on all pages */}
