@@ -1,4 +1,5 @@
 import React from 'react'
+important {Link} from ''
 
 function Service() {
  
@@ -51,12 +52,12 @@ function Service() {
           <p className="text-gray-700 max-w-2xl mx-auto mb-4">
             Whether you're looking for a trustworthy gold loan provider or a beautiful piece of jewellery for a special occasion, Omsai is here to help.
           </p>
-          <a
+          <Link
             href="/contact"
             className="inline-block bg-yellow-600 text-white px-6 py-2 rounded-full hover:bg-yellow-700 transition"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
       </div>
     </div>
