@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaHouseUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaHouseUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoLogInOutline } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +12,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
- 
+  const [showPassword, setShowPassword] = useState(false); // Toggle state
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -20,12 +21,11 @@ function Login() {
     axios.post('https://omsai-goldloan.onrender.com/', { email, password })
       .then(result => {
         setLoading(false);
-
         if (result.data.message === "success") {
           toast.success("Login successful!");
           setTimeout(() => navigate("/home"), 1000);
         } else if (result.data.message === "Incorrect Password") {
-           toast.error("Incorrect Password");
+          toast.error("Incorrect Password");
         } else {
           toast.error("Login failed. Please check your credentials.");
         }
@@ -38,23 +38,19 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4">
-      <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-blue-300/25 rounded-lg shadow-lg p-6 shadow-gray-500">
-        
-        {/* Icon */}
+    <div className="flex justify-center items-center px-4">
+      <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-blue-300/80 rounded-lg shadow-lg p-6 shadow-gray-600"> 
         <div className="flex justify-center">
           <h2 className="text-[40px] font-bold text-gray-700"><FaHouseUser /></h2>
         </div>
 
-        {/* Title */}
         <h1 className="text-center text-2xl md:text-3xl text-gray-800 font-semibold mt-2">Login</h1>
 
-        {/* Login Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-5">
 
-          {/* Email Input */}
-          <div className="flex items-center bg-gray-700/10 w-full h-12 rounded-lg px-3 hover:bg-gray-700/50 hover:scale-105 transition">
-            <FaEnvelope className="text-gray-600" />
+          {/* Email */}
+          <div className="flex items-center bg-gray-700/50 w-full h-12 rounded-lg px-3 hover:scale-105 transition">
+            <FaEnvelope className="text-white" />
             <input
               type="email"
               placeholder="Email"
@@ -64,19 +60,26 @@ function Login() {
             />
           </div>
 
-          {/* Password Input */}
-          <div className="flex items-center bg-gray-700/10 w-full h-12 rounded-lg px-3 hover:bg-gray-700/50 hover:scale-105 transition">
-            <FaLock className="text-gray-600" />
+          {/* Password */}
+          <div className="flex items-center bg-gray-700/50 w-full h-12 rounded-lg px-3 relative hover:scale-105 transition">
+            <FaLock className="text-red-600" />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-transparent outline-none w-full h-full pl-3 text-center font-semibold"
+              className="bg-transparent outline-none w-full h-full pl-3 text-center font-semibold pr-10"
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 text-white"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -85,18 +88,16 @@ function Login() {
             }`}
           >
             {loading ? (
-  <FaSpinner className="animate-spin text-2xl" />
-) : (
-  <>
-    <IoLogInOutline /> Login
-  </>
-)}
-
+              <FaSpinner className="animate-spin text-2xl" />
+            ) : (
+              <>
+                <IoLogInOutline /> Login
+              </>
+            )}
           </button>
         </form>
       </div>
 
-      {/* Toast Container */}
       <ToastContainer />
     </div>
   );

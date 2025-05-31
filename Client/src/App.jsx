@@ -12,6 +12,7 @@ import Signup from "./Components/Signup/Signup";
 import About from "./pages/About";
 import Service from "./pages/Service";
 import Contact from "./pages/Contact";
+import LoanAmount from "./Components/Customer/LoanAmount";
 
 function App() {
   return (
@@ -19,9 +20,9 @@ function App() {
       {/* Navbar stays visible on all pages */}
       <Navbar />
       <Routes>
-        <Route path="/register" element={<Signup />} />
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/home" element={<Home />} />
         <Route path="/addcustomer" element={<Addcustomer />} />
         <Route path="/customerdetail" element={<CustomerDetail />} />
@@ -30,8 +31,8 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/service" element={<Service/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/loanamount" element={<LoanAmount/>}/>
       </Routes>
-
       {/* Footer stays visible on all pages */}
       <Footer />
     </BrowserRouter>

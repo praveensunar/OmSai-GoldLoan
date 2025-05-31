@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GiShakingHands } from "react-icons/gi";
+import { MdBackspace , MdOutlineSaveAlt } from 'react-icons/md';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -94,8 +95,13 @@ function Addcustomer() {
 
           {imageUrl && <img src={imageUrl} alt="Uploaded" width="100" className='ml-20 md:ml-40 rounded-xl' />}
           <div className='flex justify-center gap-10 mt-4'>
-            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
-            <Link to="/home" className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">Back</Link>
+            <button type="submit" className="mt-10 flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition"> <MdOutlineSaveAlt />Save</button>
+            <Link
+                    to="/home"
+                    className="mt-10 flex items-center gap-2 bg-gray-600 text-white px-6 py-3 rounded-xl hover:bg-gray-700 transition"
+                  >
+                    <MdBackspace />Home
+                  </Link>
           </div>
         </form>
       </div>

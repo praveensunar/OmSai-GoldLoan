@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MdBackspace } from "react-icons/md";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { FaRegSave } from "react-icons/fa";
+import { MdOutlineSaveAlt } from "react-icons/md";
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -46,54 +46,68 @@ function UpdateCustomer() {
   if (!customer) return <p className="text-center mt-10 text-lg text-gray-600">Loading customer data...</p>;
 
   return (
-    <div className="flex flex-col items-center p-5 bg-gray-100 shadow-gray-600 shadow-lg">
-      <h1 className='text-3xl font-bold my-5 text-gray-800'>Update Customer</h1>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4 md:px-0">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Update Customer</h1>
 
-      <div className="bg-white p-5 rounded-xl shadow-md w-full max-w-lg">
-        <h3 className="text-xl font-semibold text-gray-700 mb-3 text-center">{customer.name}</h3>
+      <div className="bg-white w-full max-w-2xl p-6 rounded-2xl shadow-lg">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700">{customer.name}</h2>
 
-        <div className="space-y-3 text-gray-700 m-5">
-          <label>Customer Name:
-            <input type="text" name="name" value={customer.name} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
-          <label>Address:
-            <input type="text" name="address" value={customer.address} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
-          <label>Mobile:
-            <input type="text" name="mobile" value={customer.mobile} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
-          <label>Loan Date:
-            <input type="date" name="loanDate" value={customer.loanDate} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
-          <label>Item Weight:
-            <input type="text" name="itemWeight" value={customer.itemWeight} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
-          <label>Completed Date:
-            <input type="date" name="status" value={customer.status} onChange={handleChange} className="w-full p-2 border rounded text-red-500" />
-          </label>
-          <label>Interest Rate:
-            <input type="text" name="interestRate" value={customer.interestRate} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
-          <label>Loan Amount:
-            <input type="text" name="loanAmount" value={customer.loanAmount} onChange={handleChange} className="w-full p-2 border rounded" />
-          </label>
+        <div className="grid grid-cols-1 gap-5">
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Customer Name</label>
+            <input type="text" name="name" value={customer.name} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Address</label>
+            <input type="text" name="address" value={customer.address} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Mobile</label>
+            <input type="text" name="mobile" value={customer.mobile} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Loan Date</label>
+            <input type="date" name="loanDate" value={customer.loanDate} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Item Weight</label>
+            <input type="text" name="itemWeight" value={customer.itemWeight} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1 text-red-600">Completed Date</label>
+            <input type="date" name="status" value={customer.status} onChange={handleChange} className="w-full p-2 border rounded-lg text-red-600" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Interest Rate</label>
+            <input type="text" name="interestRate" value={customer.interestRate} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Loan Amount</label>
+            <input type="text" name="loanAmount" value={customer.loanAmount} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+          </div>
         </div>
       </div>
 
-      <div className="flex gap-4 mt-5">
-        <Link to={`/customer/${id}`} className="bg-gray-500 text-white px-5 py-3 text-2xl rounded-lg shadow-md hover:bg-gray-600">
-          <MdBackspace />
+      <div className="flex gap-4 mt-6">
+        <Link to={`/customer/${id}`} className="bg-gray-500 gap-2 font-semibold text-white text-lg px-5 py-3 rounded-xl shadow hover:bg-gray-600  flex items-center justify-center">
+          <MdBackspace /> Back
         </Link>
+
         <button
           onClick={handleUpdate}
           disabled={loading}
-          className={`flex items-center gap-2 px-4 py-3 text-xl rounded-lg font-medium shadow-md transition ${
-            loading
-              ? 'bg-gray-400 cursor-not-allowed text-white'
-              : 'bg-blue-500 text-white hover:bg-blue-600'
+          className={`flex items-center gap-2 px-5 py-3 text-lg rounded-xl font-semibold shadow transition ${
+            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
           }`}
         >
-          <FaRegSave /> {loading ? "Saving..." : "Save"}
+          <MdOutlineSaveAlt /> {loading ? "Saving..." : "Save"}
         </button>
       </div>
 

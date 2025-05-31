@@ -1,4 +1,5 @@
 import React from 'react';
+import Login from './Components/Login/Login';
 
 function Landing() {
   return (
@@ -15,10 +16,11 @@ function Landing() {
 
       {/* Content Overlay (Optional) */}
       <div className="absolute inset-0 flex flex-col justify-center items-center bg-black/40">
-        <h1 className="text-[#cae2e2] text-3xl md:text-6xl font-bold my-3">Welcome to Our Website</h1>
-
-        <h2 className='text-[#f9eed2] text-xl md:text-2xl font-bold'>Gold Loan</h2>
+        <h1 className="text-[#cae2e2] text-3xl md:text-6xl font-bold mb-5">Welcome to Our Website</h1>
+    <Login/>
+        {/* <h2 className='text-[#f9eed2] text-xl md:text-2xl font-bold'>Gold Loan</h2> */}
       </div>
+      
     </div>
   );
 }

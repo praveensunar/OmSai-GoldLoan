@@ -4,6 +4,7 @@ import { TiUserAddOutline } from "react-icons/ti";
 import { RiAdminFill } from "react-icons/ri";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
+import { GiReceiveMoney  } from "react-icons/gi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -41,6 +42,12 @@ setTimeout(() => {
           className="flex items-center justify-center gap-2 bg-gray-500 w-64 md:w-52 h-12 rounded-2xl text-lg font-medium text-white hover:bg-gray-400 hover:scale-105 transition"
         >
           <BiSolidUserDetail /> View Customer
+        </Link>
+        <Link
+          to="/loanamount"
+          className="flex items-center justify-center gap-2 bg-gray-500 w-64 md:w-52 h-12 rounded-2xl text-lg font-medium text-white hover:bg-gray-400 hover:scale-105 transition"
+        >
+          <GiReceiveMoney /> View Loan Amount
         </Link>
 
         {/* Logout Button */}
