@@ -17,24 +17,32 @@ import LoanAmount from "./Components/Customer/LoanAmount";
 function App() {
   return (
     <BrowserRouter>
-      {/* Navbar stays visible on all pages */}
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/register" element={<Signup />} />
-        {/* <Route path="/login" element={<Login />} /> */}
-        <Route path="/home" element={<Home />} />
-        <Route path="/addcustomer" element={<Addcustomer />} />
-        <Route path="/customerdetail" element={<CustomerDetail />} />
-        <Route path="/customer/:id" element={<Viewcustomer />} />
-        <Route path="/updatecustomer/:id" element={<UpdateCustomer />} />
-        <Route path="/about" element={<About/>} />
-        <Route path="/service" element={<Service/>}/>
-        <Route path="/contact" element={<Contact/>}/>
-        <Route path="/loanamount" element={<LoanAmount/>}/>
-      </Routes>
-      {/* Footer stays visible on all pages */}
-      <Footer />
+      {/* Full height wrapper */}
+      <div className="min-h-screen flex flex-col">
+        {/* Navbar stays at top */}
+        <Navbar />
+
+        {/* Main content grows to fill space */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/register" element={<Signup />} />
+            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/home" element={<Home />} />
+            <Route path="/addcustomer" element={<Addcustomer />} />
+            <Route path="/customerdetail" element={<CustomerDetail />} />
+            <Route path="/customer/:id" element={<Viewcustomer />} />
+            <Route path="/updatecustomer/:id" element={<UpdateCustomer />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/service" element={<Service />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/loanamount" element={<LoanAmount />} />
+          </Routes>
+        </main>
+
+        {/* Footer sticks to bottom if content is short */}
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }

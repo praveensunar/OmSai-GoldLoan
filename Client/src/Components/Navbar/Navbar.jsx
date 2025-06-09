@@ -25,7 +25,7 @@ function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-5 text-xl font-[700] uppercase">
-          <Link to="/" className="hover:text-gray-300">Home</Link>
+          <Link to="#" className="hover:text-gray-300">Home</Link>
           {!hideInfoLinks && (
             <>
               <Link to="/about" className="hover:text-gray-300">About Us</Link>
@@ -48,7 +48,7 @@ function Navbar() {
       {menuOpen && (
         <div className="md:hidden flex flex-col items-center bg-transparent shadow-lg py-4 rounded-md">
           <div className="flex flex-col gap-4 text-xl font-[600] text-center">
-            <Link to="/" className="hover:text-gray-300" onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link to="#" className="hover:text-gray-300" onClick={() => setMenuOpen(false)}>Home</Link>
             {!hideInfoLinks && (
               <>
                 <Link to="/about" className="hover:text-gray-300" onClick={() => setMenuOpen(false)}>About Us</Link>

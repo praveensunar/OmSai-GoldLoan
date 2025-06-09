@@ -5,16 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 function Footer() {
   return (
     <footer className="flex flex-col items-center bg-black text-white p-4 md:p-4 w-full  ">
-      {/* Contact Details */}
-      {/* <div className="text-center mb-6 px-4">
-        <h3 className="text-xl md:text-2xl font-bold">Contact Us</h3>
-        <p className="text-base md:text-sm font-medium">Email: omsaijewellers7773@gmail.com</p>
-        <p className="text-base md:text-sm font-medium">Phone: 9900828269</p>
-        <p className="text-base md:text-sm font-medium max-w-lg mx-auto">
-          Address: NEAR S.S.PATIL Function Hall Complex, Manna-E-Khelli Main Road, KAMTHANA TQ. DIST-BIDAR 585226
-        </p>
-      </div> */}
-
+     
       {/* Social Media Links */}
       <div className=" w-full text-center">
         <ul className="flex flex-wrap justify-center items-center gap-6 md:gap-10 text-3xl mb-5">
