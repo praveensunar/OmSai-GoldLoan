@@ -1,16 +1,38 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const AdminModule =require('./models/Admin');
+require('dotenv').config(); // Load environment variables
+
+const AdminModule = require('./models/Admin');
 const GoldloancustomerModel = require('./models/Customer');
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 const app = express();
-app.use(express.json())
-app.use(cors());
-const url = `mongodb+srv://user2000:praveen123@cluster0.usl4p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-// const url = "mongodb://localhost:27017/goldloan"
-mongoose.connect(url);
+
+// Middleware
+app.use(express.json());
+
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:5173'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
+// Database Connection
+const mongoUri = process.env.NODE_ENV === 'production'
+  ? process.env.MONGODB_URI
+  : process.env.MONGODB_LOCAL_URI || process.env.MONGODB_URI;
+
+mongoose.connect(mongoUri)
+  .then(() => {
+    console.log(`✅ Connected to MongoDB: ${process.env.NODE_ENV === 'production' ? 'Atlas' : 'Local'}`);
+  })
+  .catch((error) => {
+    console.error('❌ MongoDB connection error:', error);
+    process.exit(1);
+  });
 
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
@@ -21,7 +43,7 @@ const verifyToken = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, "secretkey@123");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey@123");
         req.user = decoded;
         next();
     } catch (error) {
@@ -42,7 +64,7 @@ app.post('/verify-token', (req, res) => {
     }
 
     try {
-        const decoded = jwt.verify(token, "secretkey@123");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey@123");
         res.json({
             message: "Token is valid",
             valid: true,
@@ -69,15 +91,15 @@ app.post('/',(req,res)=>{
         .then(user =>{
             if(user){
                 if(user.password === password){
-                    // Generate JWT token with 30 minutes expiration
+                    // Generate JWT token with configurable expiration
                     const token = jwt.sign(
                         {
                             id: user._id,
                             email: user.email,
                             name: user.name
                         },
-                        "secretkey@123",
-                        {expiresIn: '30m'} // 30 minutes
+                        process.env.JWT_SECRET || "secretkey@123",
+                        {expiresIn: process.env.JWT_EXPIRES_IN || '30m'}
                     );
 
                     res.json({
@@ -155,8 +177,13 @@ app.delete('/customer/:id', verifyToken, async (req, res) => {
 });
 
 
-app.listen(3001,() => {
-    console.log("🎉 ✨ Server is running on port 3001 🚀");
+const PORT = process.env.PORT || 3001;
+const SERVER_NAME = process.env.SERVER_NAME || "Om Sai Gold Loan API Server";
+
+app.listen(PORT, () => {
+    console.log(`🎉 ✨ ${SERVER_NAME} is running on port ${PORT} 🚀`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`📊 Database: ${process.env.NODE_ENV === 'production' ? 'MongoDB Atlas' : 'Local MongoDB'}`);
 });
 
 

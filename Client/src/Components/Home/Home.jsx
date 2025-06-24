@@ -11,6 +11,69 @@ import { checkServerStatus } from '../../utils/serverCheck';
 import SessionStatus from '../../components/common/SessionStatus';
 import { useState, useEffect } from 'react';
 
+// Om Sai Logo Component - Same as navbar
+const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
+  <svg className={className} viewBox="0 0 140 140" fill="none" role="img" aria-labelledby="omsai-logo-title">
+    <title id="omsai-logo-title">{title}</title>
+
+    {/* Main golden circle - matches your logo exactly */}
+    <circle
+      cx="70"
+      cy="70"
+      r="60"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      opacity="0.9"
+    />
+
+    {/* Decorative arc at top - partial circle */}
+    <path
+      d="M 25 50 A 45 45 0 0 1 115 50"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      opacity="0.6"
+    />
+
+    {/* Main text "Om Sai" - elegant serif font */}
+    <text
+      x="70"
+      y="65"
+      textAnchor="middle"
+      fontSize="20"
+      fontWeight="600"
+      fill="currentColor"
+      fontFamily="Georgia, serif"
+      opacity="0.95"
+    >
+      Om Sai
+    </text>
+
+    {/* Subtitle "GOLD LOAN" - spaced letters like your logo */}
+    <text
+      x="70"
+      y="85"
+      textAnchor="middle"
+      fontSize="9"
+      fontWeight="400"
+      fill="currentColor"
+      letterSpacing="3px"
+      fontFamily="Arial, sans-serif"
+      opacity="0.8"
+    >
+      GOLD LOAN
+    </text>
+
+    {/* Side decorative elements */}
+    <circle cx="25" cy="70" r="2" fill="currentColor" opacity="0.6"/>
+    <circle cx="115" cy="70" r="2" fill="currentColor" opacity="0.6"/>
+
+    {/* Elegant side lines */}
+    <line x1="15" y1="70" x2="20" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+    <line x1="120" y1="70" x2="125" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+  </svg>
+);
 
 function Home() {
   const { logout, user } = useAuth();
@@ -134,19 +197,11 @@ function Home() {
           <div className="w-full lg:w-1/2 flex justify-center items-center">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-[#9C8E6B]/20 to-[#ffd700]/20 rounded-full blur-3xl"></div>
-              <img
-                src="logo.png"
-                alt="OmSai Gold Loan Logo"
-                className="relative w-full max-w-md h-auto animate-float drop-shadow-2xl"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <div
-                className="hidden w-full max-w-md h-64 bg-gradient-to-br from-[#9C8E6B] to-[#ffd700] rounded-2xl items-center justify-center text-white text-2xl font-bold shadow-2xl"
-              >
-                OmSai Gold Loan
+              <div className="relative flex justify-center items-center">
+                <OmSaiLogo
+                  className="w-full max-w-md h-auto text-black animate-float drop-shadow-2xl"
+                  title="Om Sai Gold Loan - Trusted Financial Services"
+                />
               </div>
             </div>
           </div>

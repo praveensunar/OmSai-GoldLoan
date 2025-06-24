@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" fill="none">
+  <!-- Main golden circle - matches your logo exactly -->
+  <circle 
+    cx="70" 
+    cy="70" 
+    r="60" 
+    fill="none" 
+    stroke="#DAA520" 
+    stroke-width="3" 
+    opacity="0.9"
+  />
+  
+  <!-- Decorative arc at top - partial circle -->
+  <path 
+    d="M 25 50 A 45 45 0 0 1 115 50" 
+    fill="none" 
+    stroke="#DAA520" 
+    stroke-width="2" 
+    opacity="0.6"
+  />
+  
+  <!-- Main text "Om Sai" - elegant serif font -->
+  <text 
+    x="70" 
+    y="65" 
+    text-anchor="middle" 
+    font-size="20" 
+    font-weight="600" 
+    fill="#DAA520" 
+    font-family="Georgia, serif"
+    opacity="0.95"
+  >
+    Om Sai
+  </text>
+  
+  <!-- Subtitle "GOLD LOAN" - spaced letters like your logo -->
+  <text 
+    x="70" 
+    y="85" 
+    text-anchor="middle" 
+    font-size="9" 
+    font-weight="400" 
+    fill="#DAA520" 
+    letter-spacing="3px"
+    font-family="Arial, sans-serif"
+    opacity="0.8"
+  >
+    GOLD LOAN
+  </text>
+  
+  <!-- Side decorative elements -->
+  <circle cx="25" cy="70" r="2" fill="#DAA520" opacity="0.6"/>
+  <circle cx="115" cy="70" r="2" fill="#DAA520" opacity="0.6"/>
+  
+  <!-- Elegant side lines -->
+  <line x1="15" y1="70" x2="20" y2="70" stroke="#DAA520" stroke-width="2" opacity="0.4"/>
+  <line x1="120" y1="70" x2="125" y2="70" stroke="#DAA520" stroke-width="2" opacity="0.4"/>
+</svg>

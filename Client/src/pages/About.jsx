@@ -2,6 +2,70 @@ import { FaShieldAlt, FaHandshake, FaGem, FaLock, FaUsers, FaCrown, FaCoins, FaA
 import { GiGoldBar, GiDiamondRing, GiTwoCoins } from 'react-icons/gi';
 import { MdSecurity, MdVerified, MdStars } from 'react-icons/md';
 
+// Om Sai Logo Component - Same as navbar and home
+const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
+  <svg className={className} viewBox="0 0 140 140" fill="none" role="img" aria-labelledby="omsai-logo-title">
+    <title id="omsai-logo-title">{title}</title>
+
+    {/* Main golden circle - matches your logo exactly */}
+    <circle
+      cx="70"
+      cy="70"
+      r="60"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      opacity="0.9"
+    />
+
+    {/* Decorative arc at top - partial circle */}
+    <path
+      d="M 25 50 A 45 45 0 0 1 115 50"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      opacity="0.6"
+    />
+
+    {/* Main text "Om Sai" - elegant serif font */}
+    <text
+      x="70"
+      y="65"
+      textAnchor="middle"
+      fontSize="20"
+      fontWeight="600"
+      fill="currentColor"
+      fontFamily="Georgia, serif"
+      opacity="0.95"
+    >
+      Om Sai
+    </text>
+
+    {/* Subtitle "GOLD LOAN" - spaced letters like your logo */}
+    <text
+      x="70"
+      y="85"
+      textAnchor="middle"
+      fontSize="9"
+      fontWeight="400"
+      fill="currentColor"
+      letterSpacing="3px"
+      fontFamily="Arial, sans-serif"
+      opacity="0.8"
+    >
+      GOLD LOAN
+    </text>
+
+    {/* Side decorative elements */}
+    <circle cx="25" cy="70" r="2" fill="currentColor" opacity="0.6"/>
+    <circle cx="115" cy="70" r="2" fill="currentColor" opacity="0.6"/>
+
+    {/* Elegant side lines */}
+    <line x1="15" y1="70" x2="20" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+    <line x1="120" y1="70" x2="125" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+  </svg>
+);
+
 const About = () => {
   const values = [
     { icon: FaShieldAlt, title: "Trust", description: "Built on decades of reliable service and customer satisfaction" },
@@ -30,8 +94,8 @@ const About = () => {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <div className="text-6xl text-[#ffd700] animate-float">
-              <GiGoldBar />
+            <div className="animate-float">
+              <OmSaiLogo className="w-16 h-16 text-black" />
             </div>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
@@ -58,8 +122,8 @@ const About = () => {
             {/* Gold Loan Services */}
             <div className="bg-white rounded-3xl shadow-2xl p-8 card-hover animate-slide-up">
               <div className="flex items-center gap-4 mb-6">
-                <div className="text-4xl text-[#9C8E6B]">
-                  <GiGoldBar />
+                <div className="text-black">
+                  <OmSaiLogo className="w-12 h-12" />
                 </div>
                 <h3 className="text-3xl font-bold text-gray-800">Gold Loan Services</h3>
               </div>

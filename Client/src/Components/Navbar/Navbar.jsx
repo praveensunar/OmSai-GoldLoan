@@ -1,11 +1,73 @@
 import { useState, useEffect } from "react";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
 import { MdDashboard, MdInfo, MdMiscellaneousServices } from "react-icons/md";
-import { GiTwoCoins } from "react-icons/gi";
-// Alternative icon options for easy switching:
-// import { GiDiamondRing, GiReceiveMoney, GiGoldBar, GiTreasure } from "react-icons/gi";
-// import { FaGem, FaUniversity, FaCoins } from "react-icons/fa";
-// import { MdAccountBalance, MdDiamond } from "react-icons/md";
+// Main Logo Component - Exact Match to Your "Om Sai Gold Loan" Logo Design
+
+// Alternative Logo Design 1 - Exact Match to Your Logo (Transparent Background)
+const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
+  <svg className={className} viewBox="0 0 140 140" fill="none" role="img" aria-labelledby="omsai-logo-title">
+    <title id="omsai-logo-title">{title}</title>
+
+    {/* Main golden circle - matches your logo exactly */}
+    <circle
+      cx="70"
+      cy="70"
+      r="60"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      opacity="0.9"
+    />
+
+    {/* Decorative arc at top - partial circle */}
+    <path
+      d="M 25 50 A 45 45 0 0 1 115 50"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      opacity="0.6"
+    />
+
+    {/* Main text "Om Sai" - elegant serif font */}
+    <text
+      x="70"
+      y="65"
+      textAnchor="middle"
+      fontSize="20"
+      fontWeight="600"
+      fill="currentColor"
+      fontFamily="Georgia, serif"
+      opacity="0.95"
+    >
+      Om Sai
+    </text>
+
+    {/* Subtitle "GOLD LOAN" - spaced letters like your logo */}
+    <text
+      x="70"
+      y="85"
+      textAnchor="middle"
+      fontSize="9"
+      fontWeight="400"
+      fill="currentColor"
+      letterSpacing="3px"
+      fontFamily="Arial, sans-serif"
+      opacity="0.8"
+    >
+      GOLD LOAN
+    </text>
+
+    {/* Side decorative elements */}
+    <circle cx="25" cy="70" r="2" fill="currentColor" opacity="0.6"/>
+    <circle cx="115" cy="70" r="2" fill="currentColor" opacity="0.6"/>
+
+    {/* Elegant side lines */}
+    <line x1="15" y1="70" x2="20" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+    <line x1="120" y1="70" x2="125" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+  </svg>
+);
+
+
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import SessionStatus from "../../components/common/SessionStatus";
@@ -32,17 +94,20 @@ function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 w-full px-4 sm:px-6 lg:px-10 py-3 sm:py-4 transition-all duration-300 z-50 ${
       scrolled
         ? 'bg-white/95 backdrop-blur-lg shadow-xl border-b border-gray-200/50'
-        : 'bg-gradient-to-r from-[#9C8E6B]/95 to-[#8B7D5A]/95 backdrop-blur-lg shadow-lg'
+        : 'bg-gradient-to-r from-[#9C8E6B]/90 to-[#8B7D5A]/95 backdrop-blur-lg shadow-lg'
     }`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="cursor-pointer group flex items-center gap-3">
-          <div className={`p-2 rounded-xl transition-all duration-300 ${
+          <div className={`p-2 rounded-4xl transition-all duration-300 ${
             scrolled
-              ? 'bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A] text-white'
-              : 'bg-white/20 text-[#ffd700]'
+              ? 'bg-white/90 text-black'
+              : 'bg-white/20 text-black'
           }`}>
-            <GiTwoCoins className="text-2xl sm:text-3xl animate-pulse drop-shadow-lg" />
+            <OmSaiLogo
+              className="w-8 h-8 sm:w-10 sm:h-10 animate-pulse drop-shadow-lg"
+              title="Om Sai Gold Loan - Trusted Financial Services"
+            />
           </div>
           <div className="flex flex-col">
             <h2 className={`font-bold text-xl sm:text-2xl transition-colors duration-300 ${
