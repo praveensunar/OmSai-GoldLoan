@@ -3,20 +3,12 @@ import Login from './Components/Login/Login';
 function Landing() {
   return (
     <div className="relative w-full min-h-screen overflow-hidden -mt-16 sm:-mt-20">
-      {/* Video Background */}
-      <video
-        src="/background.mp4"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        autoPlay
-        loop
-        muted
-        playsInline
-        onLoadStart={() => console.log('Video loading started')}
-        onError={(e) => console.log('Video error:', e)}
-      ></video>
-
-      {/* Fallback background in case video doesn't load */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 z-0"></div>
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 z-0">
+        {/* Animated overlay for visual interest */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#9C8E6B]/20 to-[#ffd700]/20 animate-pulse"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
 
       {/* Content Overlay */}
       <div className="relative z-10 flex flex-col justify-center items-center min-h-screen bg-black/40 px-4 py-8 pt-24 sm:pt-28">
