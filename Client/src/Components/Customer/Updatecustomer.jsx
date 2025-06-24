@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 // Removed navigation hooks to prevent alert conflicts
-import { BackToCustomer } from '../../components/common/BackButton';
+import { BackToCustomer } from '../common/BackButton';
 
 function UpdateCustomer() {
   const { id } = useParams();

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../contexts/AuthContext';
 // Removed useBrowserBackButton import to fix alert issue
-import BackButton from '../../components/common/BackButton';
+import BackButton from '../common/BackButton';
 
 function Addcustomer() {
   const [name, setName] = useState("");

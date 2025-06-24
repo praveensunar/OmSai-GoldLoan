@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { IoSearchSharp, IoPersonSharp, IoCalendarSharp } from 'react-icons/io5';
-import { MdLocalPrintshop, MdBackspace, MdVisibility, MdAttachMoney, MdPhone, MdLocationOn } from 'react-icons/md';
+import { MdLocalPrintshop, MdVisibility, MdAttachMoney, MdPhone, MdLocationOn } from 'react-icons/md';
 import { FaUsers, FaSpinner, FaFilter } from 'react-icons/fa';
 import { BiSortAlt2 } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation, useBrowserBackButton } from '../../hooks/useNavigation';
-import { BackToHome } from '../../components/common/BackButton';
+import { BackToHome } from '../common/BackButton';
 import { checkServerStatus } from '../../utils/serverCheck';
 
 function CustomerDetail() {

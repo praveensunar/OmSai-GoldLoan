@@ -8,7 +8,7 @@ import { FaCircle } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkServerStatus } from '../../utils/serverCheck';
-import SessionStatus from '../../components/common/SessionStatus';
+import SessionStatus from '../common/SessionStatus';
 import { useState, useEffect } from 'react';
 
 // Om Sai Logo Component - Same as navbar

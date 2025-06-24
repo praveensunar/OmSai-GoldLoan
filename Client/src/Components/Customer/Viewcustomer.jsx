@@ -29,8 +29,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 // Removed navigation hooks to prevent alert conflicts
-import BackButton from '../../components/common/BackButton';
-import ImageDisplay from '../../components/ImageDisplay';
+import BackButton from '../common/BackButton';
+import ImageDisplay from '../ImageDisplay';
 
 function Viewcustomer() {
     const { id } = useParams();

@@ -70,7 +70,7 @@ const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
 
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import SessionStatus from "../../components/common/SessionStatus";
+import SessionStatus from "../common/SessionStatus";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
