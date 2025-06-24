@@ -37,32 +37,25 @@ export const AuthProvider = ({ children }) => {
   const WARNING_TIME = DEBUG_MODE ? 30 * 1000 : 5 * 60 * 1000; // 30 sec for debug, 5 min for production
   const REFRESH_INTERVAL = DEBUG_MODE ? 1 * 60 * 1000 : 25 * 60 * 1000; // 1 min for debug, 25 min for production
 
-  // Generate new token (simulate token refresh)
-  const generateNewToken = () => {
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    return `token_${timestamp}_${randomString}`;
-  };
-
-  // Refresh token function
+  // Refresh token function - for now, just extend current session
   const refreshToken = async () => {
     try {
-      console.log('🔄 Refreshing token...');
+      console.log('🔄 Extending current session...');
 
+      // For now, we'll just extend the current session
       // In a real app, you would call your backend to refresh the token
-      // For now, we'll simulate it by generating a new token
-      const newToken = generateNewToken();
+      const currentToken = token || localStorage.getItem('authToken');
 
-      // Update token in state and localStorage
-      setToken(newToken);
-      localStorage.setItem('authToken', newToken);
+      if (!currentToken) {
+        throw new Error('No token to refresh');
+      }
+
+      // Update timestamp to extend session
       localStorage.setItem('tokenTimestamp', Date.now().toString());
+      localStorage.setItem('sessionStartTime', Date.now().toString());
 
-      // Update axios headers
-      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-
-      console.log('✅ Token refreshed successfully');
-      toast.success('Session refreshed automatically', {
+      console.log('✅ Session extended successfully');
+      toast.success('Session extended automatically', {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: true,
@@ -73,8 +66,8 @@ export const AuthProvider = ({ children }) => {
 
       return true;
     } catch (error) {
-      console.error('❌ Token refresh failed:', error);
-      toast.error('Session refresh failed. Please login again.');
+      console.error('❌ Session extension failed:', error);
+      toast.error('Session extension failed. Please login again.');
       logout();
       return false;
     }
@@ -118,7 +111,7 @@ export const AuthProvider = ({ children }) => {
     }, REFRESH_INTERVAL);
 
     // Set up session warning (25 minutes)
-    const warningTimer = setTimeout(() => {
+    setTimeout(() => {
       showSessionWarning();
     }, SESSION_DURATION - WARNING_TIME);
 
@@ -271,8 +264,9 @@ export const AuthProvider = ({ children }) => {
           setToken(storedToken);
           axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
 
-          // Create user session based on stored token
-          const userData = {
+          // Try to get user data from localStorage or create default
+          const storedUser = localStorage.getItem('userData');
+          const userData = storedUser ? JSON.parse(storedUser) : {
             id: 'admin',
             name: 'Admin',
             email: 'admin@omsai.com'
@@ -333,13 +327,15 @@ export const AuthProvider = ({ children }) => {
       console.log('Login response:', response.data); // Debug log
 
       if (response.data.message === 'success') {
-        // Check if server returns token and user data
-        const newToken = response.data.token || `temp_token_${Date.now()}`;
-        const userData = response.data.user || {
-          id: 'admin',
-          name: 'Admin',
-          email: email
-        };
+        // Use the real JWT token from server
+        const newToken = response.data.token;
+        const userData = response.data.user;
+
+        // Validate that we received both token and user data
+        if (!newToken || !userData) {
+          console.error('❌ Server did not return token or user data');
+          return { success: false, message: 'Authentication failed - invalid server response' };
+        }
 
         console.log('Setting token and user:', { newToken, userData }); // Debug log
 
@@ -347,9 +343,10 @@ export const AuthProvider = ({ children }) => {
         setToken(newToken);
         setUser(userData);
 
-        // Store token and timestamps
+        // Store token, user data, and timestamps
         const now = Date.now();
         localStorage.setItem('authToken', newToken);
+        localStorage.setItem('userData', JSON.stringify(userData));
         localStorage.setItem('sessionStartTime', now.toString());
         localStorage.setItem('tokenTimestamp', now.toString());
 
@@ -388,6 +385,7 @@ export const AuthProvider = ({ children }) => {
 
     // Clear localStorage completely
     localStorage.removeItem('authToken');
+    localStorage.removeItem('userData');
     localStorage.removeItem('sessionStartTime');
     localStorage.removeItem('tokenTimestamp');
 
