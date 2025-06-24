@@ -1,0 +1,17 @@
+# Netlify redirects file for React Router
+# This ensures that all routes are handled by React Router instead of Netlify
+
+# Handle all routes by serving index.html
+/*    /index.html   200
+
+# Optional: Handle API calls (if you want to proxy API calls)
+# /api/*  https://omsai-goldloan.onrender.com/:splat  200
+
+# Optional: Handle specific file extensions normally
+# *.js    /static/js/:splat   200
+# *.css   /static/css/:splat  200
+# *.png   /static/media/:splat 200
+# *.jpg   /static/media/:splat 200
+# *.jpeg  /static/media/:splat 200
+# *.gif   /static/media/:splat 200
+# *.svg   /static/media/:splat 200
