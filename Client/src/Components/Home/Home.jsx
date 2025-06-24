@@ -195,7 +195,7 @@ function Home() {
 
           {/* Right Section - Logo/Branding */}
           <div className="w-full lg:w-1/2 flex justify-center items-center">
-            <div className="relative">
+            <div className="relative mt-16 lg:mt-20">
               <div className="absolute inset-0 bg-gradient-to-r from-[#9C8E6B]/20 to-[#ffd700]/20 rounded-full blur-3xl"></div>
               <div className="relative flex justify-center items-center">
                 <OmSaiLogo

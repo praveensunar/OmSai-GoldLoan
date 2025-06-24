@@ -1,6 +1,6 @@
 import { FaShieldAlt, FaHandshake, FaGem, FaLock, FaUsers, FaCrown, FaCoins, FaAward, FaHeart, FaCheckCircle } from 'react-icons/fa';
-import { GiGoldBar, GiDiamondRing, GiTwoCoins } from 'react-icons/gi';
-import { MdSecurity, MdVerified, MdStars } from 'react-icons/md';
+import { GiDiamondRing } from 'react-icons/gi';
+import { MdSecurity, MdVerified } from 'react-icons/md';
 
 // Om Sai Logo Component - Same as navbar and home
 const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
@@ -118,9 +118,9 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
             {/* Gold Loan Services */}
-            <div className="bg-white rounded-3xl shadow-2xl p-8 card-hover animate-slide-up">
+            <div className="bg-white rounded-3xl shadow-2xl p-8 card-hover animate-slide-up flex flex-col h-full">
               <div className="flex items-center gap-4 mb-6">
                 <div className="text-black">
                   <OmSaiLogo className="w-12 h-12" />
@@ -133,7 +133,7 @@ const About = () => {
                 you can trust us to provide immediate funds against your gold with transparent interest rates and top-notch safety.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow mb-8">
                 {features.slice(0, 7).map((feature, index) => (
                   <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-[#9C8E6B]/10 transition-colors">
                     <feature.icon className="text-[#9C8E6B] text-lg flex-shrink-0" />
@@ -142,7 +142,7 @@ const About = () => {
                 ))}
               </div>
 
-              <div className="mt-8 p-6 bg-gradient-to-r from-[#9C8E6B]/10 to-[#ffd700]/10 rounded-2xl">
+              <div className="mt-auto p-6 bg-gradient-to-r from-[#9C8E6B]/10 to-[#ffd700]/10 rounded-2xl">
                 <h4 className="font-bold text-gray-800 mb-2">Why Choose Our Gold Loans?</h4>
                 <p className="text-gray-600">
                   Competitive interest rates, quick processing, and secure storage facilities make us the preferred choice for gold loans.
@@ -151,7 +151,7 @@ const About = () => {
             </div>
 
             {/* Jewelry Services */}
-            <div className="bg-white rounded-3xl shadow-2xl p-8 card-hover animate-slide-up">
+            <div className="bg-white rounded-3xl shadow-2xl p-8 card-hover animate-slide-up flex flex-col h-full">
               <div className="flex items-center gap-4 mb-6">
                 <div className="text-4xl text-[#9C8E6B]">
                   <GiDiamondRing />
@@ -164,7 +164,7 @@ const About = () => {
                 We offer a full range of services — from design to repair — making us your one-stop destination for all jewellery needs.
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-4 flex-grow mb-8">
                 {[
                   "Certified gold & silver ornaments",
                   "Custom jewellery design",
@@ -181,7 +181,7 @@ const About = () => {
                 ))}
               </div>
 
-              <div className="mt-8 p-6 bg-gradient-to-r from-[#9C8E6B]/10 to-[#ffd700]/10 rounded-2xl">
+              <div className="mt-auto p-6 bg-gradient-to-r from-[#9C8E6B]/10 to-[#ffd700]/10 rounded-2xl">
                 <h4 className="font-bold text-gray-800 mb-2">Craftsmanship Excellence</h4>
                 <p className="text-gray-600">
                   Every piece is crafted with precision and care, ensuring the highest quality and lasting beauty.
