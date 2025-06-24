@@ -1,71 +1,175 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TiUserAddOutline } from "react-icons/ti";
 import { RiAdminFill } from "react-icons/ri";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
 import { GiReceiveMoney  } from "react-icons/gi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { FaCircle } from "react-icons/fa";
+import { toast } from 'react-toastify';
+import { useAuth } from '../../contexts/AuthContext';
+import { checkServerStatus } from '../../utils/serverCheck';
+import SessionStatus from '../../components/common/SessionStatus';
+import { useState, useEffect } from 'react';
 
 
 function Home() {
-  const navigate = useNavigate();
+  const { logout, user } = useAuth();
+  const [serverStatus, setServerStatus] = useState('checking');
+
+  // Check server status on component mount
+  useEffect(() => {
+    const checkServer = async () => {
+      const result = await checkServerStatus();
+      setServerStatus(result.status);
+    };
+    checkServer();
+  }, []);
 
   // Logout Function
   const handleLogout = () => {
-    localStorage.removeItem("userToken"); // Clear token (or any auth data)
-    sessionStorage.removeItem("userSession"); // Clear session data (if any)
-    toast("You have been logged out successfully!");
-setTimeout(() => {
-  navigate("/");
-}, 1000); // Redirect to login page
+    logout(false); // Don't auto-redirect, we'll handle it here
+    toast.success("You have been logged out successfully!");
+    setTimeout(() => {
+      // Use window.location for complete page refresh
+      window.location.href = "/";
+    }, 1000);
   };
 
-  return (<>
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-[70vh] p-5 bg-gray-100">
-      {/* Left Section */}
-      <div className="w-full md:w-1/2 flex flex-col items-center gap-6 text-center">
-        <div className="text-6xl text-zinc-700">
-          <RiAdminFill />
+  const getStatusColor = () => {
+    switch (serverStatus) {
+      case 'online': return 'text-green-500';
+      case 'offline': return 'text-red-500';
+      case 'slow': return 'text-yellow-500';
+      case 'checking': return 'text-gray-500';
+      default: return 'text-red-500';
+    }
+  };
+
+  const getStatusText = () => {
+    switch (serverStatus) {
+      case 'online': return 'Server Online';
+      case 'offline': return 'Server Offline';
+      case 'slow': return 'Server Slow';
+      case 'checking': return 'Checking...';
+      default: return 'Server Error';
+    }
+  };
+
+  return (
+    <>
+      <div className="min-h-[calc(100vh-80px)] bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 p-4 sm:p-6">
+        {/* Header Section */}
+        <div className="text-center mb-12 animate-fade-in">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            Welcome, {user?.name || 'Admin'}!
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-4">
+            Manage your gold loan operations efficiently with our comprehensive admin panel
+          </p>
+
+          {/* Status Indicators */}
+          <div className="flex items-center justify-center gap-6 text-sm">
+            {/* Server Status */}
+            <div className="flex items-center gap-2">
+              <FaCircle className={`text-xs ${getStatusColor()}`} />
+              <span className="text-gray-600">{getStatusText()}</span>
+            </div>
+
+            {/* Session Status */}
+            <div className="flex items-center gap-2">
+              <span className="text-gray-600">Session:</span>
+              <SessionStatus />
+            </div>
+          </div>
         </div>
 
-        <Link
-          to="/addcustomer"
-          className="flex items-center justify-center gap-2 bg-gray-500 w-64 md:w-52 h-12 rounded-2xl text-lg font-medium text-white hover:bg-gray-400 hover:scale-105 transition"
-        >
-          <TiUserAddOutline /> Add Customers
-        </Link>
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 max-w-7xl mx-auto">
+          {/* Left Section - Admin Controls */}
+          <div className="w-full lg:w-1/2 flex flex-col items-center gap-6">
+            <div className="text-8xl text-[#9C8E6B] mb-6 animate-float">
+              <RiAdminFill />
+            </div>
 
-        <Link
-          to="/customerdetail"
-          className="flex items-center justify-center gap-2 bg-gray-500 w-64 md:w-52 h-12 rounded-2xl text-lg font-medium text-white hover:bg-gray-400 hover:scale-105 transition"
-        >
-          <BiSolidUserDetail /> View Customer
-        </Link>
-        <Link
-          to="/loanamount"
-          className="flex items-center justify-center gap-2 bg-gray-500 w-64 md:w-52 h-12 rounded-2xl text-lg font-medium text-white hover:bg-gray-400 hover:scale-105 transition"
-        >
-          <GiReceiveMoney /> View Loan Amount
-        </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-lg">
+              <Link
+                to="/addcustomer"
+                className="card-hover btn-hover-effect flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#9C8E6B] to-[#8B7D5A] p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:from-[#8B7D5A] hover:to-[#7A6C49] group"
+              >
+                <TiUserAddOutline className="text-3xl group-hover:scale-110 transition-transform duration-300" />
+                <span className="text-lg font-semibold">Add Customer</span>
+                <span className="text-sm opacity-90">Register new customers</span>
+              </Link>
 
-        {/* Logout Button */}
-        <button
-          onClick={handleLogout}
-          className="flex items-center justify-center gap-2 bg-red-500 w-64 md:w-52 h-12 rounded-2xl text-lg font-medium text-white hover:bg-red-400 hover:scale-105 transition"
-        >
-          <MdLogout /> Logout
-        </button>
+              <Link
+                to="/customerdetail"
+                className="card-hover btn-hover-effect flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#B8860B] to-[#DAA520] p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:from-[#DAA520] hover:to-[#FFD700] group"
+              >
+                <BiSolidUserDetail className="text-3xl group-hover:scale-110 transition-transform duration-300" />
+                <span className="text-lg font-semibold">View Customers</span>
+                <span className="text-sm opacity-90">Manage customer data</span>
+              </Link>
+
+              <Link
+                to="/loanamount"
+                className="card-hover btn-hover-effect flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#CD853F] to-[#D2691E] p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:from-[#D2691E] hover:to-[#F4A460] group"
+              >
+                <GiReceiveMoney className="text-3xl group-hover:scale-110 transition-transform duration-300" />
+                <span className="text-lg font-semibold">Loan Amounts</span>
+                <span className="text-sm opacity-90">Track loan details</span>
+              </Link>
+
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="card-hover btn-hover-effect flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#8B4513] to-[#A0522D] p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:from-[#A0522D] hover:to-[#CD853F] group"
+              >
+                <MdLogout className="text-3xl group-hover:scale-110 transition-transform duration-300" />
+                <span className="text-lg font-semibold">Logout</span>
+                <span className="text-sm opacity-90">End admin session</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Section - Logo/Branding */}
+          <div className="w-full lg:w-1/2 flex justify-center items-center">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#9C8E6B]/20 to-[#ffd700]/20 rounded-full blur-3xl"></div>
+              <img
+                src="logo.png"
+                alt="OmSai Gold Loan Logo"
+                className="relative w-full max-w-md h-auto animate-float drop-shadow-2xl"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div
+                className="hidden w-full max-w-md h-64 bg-gradient-to-br from-[#9C8E6B] to-[#ffd700] rounded-2xl items-center justify-center text-white text-2xl font-bold shadow-2xl"
+              >
+                OmSai Gold Loan
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats Section */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+            <div className="text-3xl font-bold text-blue-600 mb-2">24/7</div>
+            <div className="text-gray-600">Service Available</div>
+          </div>
+          <div className="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+            <div className="text-3xl font-bold text-green-600 mb-2">100%</div>
+            <div className="text-gray-600">Secure Transactions</div>
+          </div>
+          <div className="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+            <div className="text-3xl font-bold text-purple-600 mb-2">Fast</div>
+            <div className="text-gray-600">Loan Processing</div>
+          </div>
+        </div>
       </div>
 
-      {/* Right Section (Image) */}
-      <div>
-        <img src="logo.png" alt="logo" className='w-full '  />
-      </div>
-      
-    </div>
-    <ToastContainer />
+
     </>
   );
 }

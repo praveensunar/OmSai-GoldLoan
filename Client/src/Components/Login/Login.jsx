@@ -1,104 +1,148 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaHouseUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoLogInOutline } from "react-icons/io5";
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FaSpinner } from 'react-icons/fa';
+import { useAuth } from '../../contexts/AuthContext';
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isAuthenticated, user, token } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Toggle state
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Redirect if already authenticated
+  useEffect(() => {
+    console.log('Login useEffect - checking authentication'); // Debug log
+    if (isAuthenticated()) {
+      const from = location.state?.from?.pathname || "/home";
+      console.log('Already authenticated, redirecting to:', from); // Debug log
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    axios.post('https://omsai-goldloan.onrender.com/', { email, password })
-      .then(result => {
-        setLoading(false);
-        if (result.data.message === "success") {
-          toast.success("Login successful!");
-          setTimeout(() => navigate("/home"), 1000);
-        } else if (result.data.message === "Incorrect Password") {
-          toast.error("Incorrect Password");
-        } else {
-          toast.error("Login failed. Please check your credentials.");
-        }
-      })
-      .catch(error => {
-        setLoading(false);
-        toast.error("Something went wrong. Please try again later.");
-        console.log("Login error:", error);
-      });
+    try {
+      console.log('Attempting login with:', { email, password: '***' }); // Debug log
+      const result = await login(email, password);
+      console.log('Login result:', result); // Debug log
+
+      if (result.success) {
+        toast.success(result.message);
+        const from = location.state?.from?.pathname || "/home";
+        console.log('Navigating to:', from); // Debug log
+
+        // Wait a bit for state to update, then navigate
+        setTimeout(() => {
+          console.log('Auth state after login:', {
+            isAuth: isAuthenticated(),
+            user: !!user,
+            token: !!token
+          });
+          navigate(from, { replace: true });
+        }, 100);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex justify-center items-center px-4">
-      <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-blue-300/80 rounded-lg shadow-lg p-6 shadow-gray-600"> 
-        <div className="flex justify-center">
-          <h2 className="text-[40px] font-bold text-gray-700"><FaHouseUser /></h2>
+      <div className="w-full max-w-sm md:max-w-md lg:max-w-lg glass-effect rounded-2xl shadow-2xl p-8 border border-white/20 backdrop-blur-lg animate-slide-up">
+        <div className="flex justify-center mb-4">
+          <div className="text-[50px] text-[#ffd700] animate-float">
+            <FaHouseUser />
+          </div>
         </div>
 
-        <h1 className="text-center text-2xl md:text-3xl text-gray-800 font-semibold mt-2">Login</h1>
+        <h1 className="text-center text-3xl md:text-4xl text-white font-bold mb-8 drop-shadow-lg">
+          Admin Login
+        </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
           {/* Email */}
-          <div className="flex items-center bg-gray-700/50 w-full h-12 rounded-lg px-3 hover:scale-105 transition">
-            <FaEnvelope className="text-white" />
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-transparent outline-none w-full h-full pl-3 text-center font-semibold"
-              required
-            />
+          <div className="relative group">
+            <div className="flex items-center bg-white/10 w-full h-14 rounded-xl px-4 border border-white/20 hover:border-[#ffd700]/50 focus-within:border-[#ffd700] transition-all duration-300 hover:scale-[1.02]">
+              <FaEnvelope className="text-[#ffd700] text-lg mr-3" />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-transparent outline-none w-full h-full text-white placeholder-white/70 font-medium"
+                required
+              />
+            </div>
           </div>
 
           {/* Password */}
-          <div className="flex items-center bg-gray-700/50 w-full h-12 rounded-lg px-3 relative hover:scale-105 transition">
-            <FaLock className="text-red-600" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              className="bg-transparent outline-none w-full h-full pl-3 text-center font-semibold pr-10"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 text-white"
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
+          <div className="relative group">
+            <div className="flex items-center bg-white/10 w-full h-14 rounded-xl px-4 border border-white/20 hover:border-[#ffd700]/50 focus-within:border-[#ffd700] transition-all duration-300 hover:scale-[1.02]">
+              <FaLock className="text-[#ffd700] text-lg mr-3" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-transparent outline-none w-full h-full text-white placeholder-white/70 font-medium pr-12"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 text-white/80 hover:text-[#ffd700] transition-colors duration-300"
+              >
+                {showPassword ? <FaEyeSlash className="text-lg" /> : <FaEye className="text-lg" />}
+              </button>
+            </div>
           </div>
 
           {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className={`flex justify-center items-center gap-5 w-full h-12 rounded-2xl text-xl font-medium text-white transition ${
-              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600/60 hover:bg-blue-400 hover:scale-105'
+            className={`btn-hover-effect flex justify-center items-center gap-3 w-full h-14 rounded-xl text-lg font-semibold text-white transition-all duration-300 mt-4 ${
+              loading
+                ? 'bg-gray-500/50 cursor-not-allowed'
+                : 'bg-gradient-to-r from-[#ffd700] to-[#ffed4e] hover:from-[#ffed4e] hover:to-[#ffd700] hover:scale-[1.02] hover:shadow-lg hover:shadow-[#ffd700]/25 text-gray-800'
             }`}
           >
             {loading ? (
               <FaSpinner className="animate-spin text-2xl" />
             ) : (
               <>
-                <IoLogInOutline /> Login
+                <IoLogInOutline className="text-xl" />
+                <span>Login to Dashboard</span>
               </>
             )}
           </button>
         </form>
+
+        {/* Additional Info */}
+        <div className="text-center mt-6">
+          <p className="text-white/70 text-sm">
+            Secure admin access to manage gold loan operations
+          </p>
+
+         
+        </div>
       </div>
 
-      <ToastContainer />
+
     </div>
   );
 }

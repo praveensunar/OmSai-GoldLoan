@@ -1,62 +1,313 @@
-import React from 'react'
-
 import { Link } from 'react-router-dom';
-
+import {
+  FaShieldAlt,
+  FaClock,
+  FaHandshake,
+  FaTools,
+  FaPalette,
+  FaHeart,
+  FaCheckCircle,
+  FaArrowRight,
+  FaPhone,
+  FaMapMarkerAlt
+} from 'react-icons/fa';
+import {
+  GiGoldBar,
+  GiDiamondRing,
+  GiTwoCoins,
+  GiJewelCrown,
+  GiReceiveMoney
+} from 'react-icons/gi';
+import { MdSecurity, MdVerified, MdStars, MdAttachMoney } from 'react-icons/md';
 
 function Service() {
- 
+  const goldLoanServices = [
+    {
+      icon: FaClock,
+      title: "Instant Approval",
+      description: "Get your gold loan approved and disbursed within minutes with minimal documentation."
+    },
+    {
+      icon: MdSecurity,
+      title: "Secure Storage",
+      description: "Your precious gold ornaments are stored in our state-of-the-art secure facilities."
+    },
+    {
+      icon: MdVerified,
+      title: "Transparent Rates",
+      description: "Clear and competitive interest rates with no hidden charges or fees."
+    },
+    {
+      icon: FaHandshake,
+      title: "Flexible Repayment",
+      description: "Choose from multiple repayment options that suit your financial situation."
+    },
+    {
+      icon: FaShieldAlt,
+      title: "Trusted Service",
+      description: "Years of experience and thousands of satisfied customers trust our services."
+    },
+    {
+      icon: GiReceiveMoney,
+      title: "Quick Disbursal",
+      description: "Receive funds immediately after approval with hassle-free processing."
+    }
+  ];
+
+  const jewelryServices = [
+    {
+      icon: GiDiamondRing,
+      title: "Certified Jewelry",
+      description: "916 hallmarked gold, 20-carat gold, and 999 pure silver with authenticity certificates."
+    },
+    {
+      icon: FaPalette,
+      title: "Custom Design",
+      description: "Create unique jewelry pieces tailored to your personal style and preferences."
+    },
+    {
+      icon: FaTools,
+      title: "Repair Services",
+      description: "Expert jewelry repair and maintenance services to restore your precious pieces."
+    },
+    {
+      icon: GiJewelCrown,
+      title: "Bridal Collections",
+      description: "Exquisite bridal and festive collections for your special occasions."
+    },
+    {
+      icon: MdStars,
+      title: "Quality Craftsmanship",
+      description: "Each piece is crafted with precision and attention to detail by skilled artisans."
+    },
+    {
+      icon: MdAttachMoney,
+      title: "Fair Pricing",
+      description: "Competitive making charges and transparent pricing for all our jewelry."
+    }
+  ];
+
   return (
-    <div className="bg-white text-gray-800 py-10 px-4 sm:px-6 lg:px-16">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-yellow-700 mb-6 text-center">
-          Our Services – Omsai GoldLoan & Jeweller's
-        </h1>
-
-        <p className="text-lg text-gray-700 text-center mb-10 max-w-3xl mx-auto">
-          At <span className="text-yellow-700 font-semibold">Omsai</span>, we are proud to offer a combination of trusted gold loan services and fine jewellery craftsmanship. Explore the services we provide through our two verticals – <span className="font-medium">Omsai GoldLoan</span> and <span className="font-medium">Omsai Jeweller's</span>.
-        </p>
-
-        {/* Gold Loan Services */}
-        <div className="bg-yellow-50 rounded-xl p-6 shadow-md mb-12">
-          <h2 className="text-2xl font-semibold text-yellow-700 mb-4">💰 Omsai GoldLoan Services</h2>
-          <p className="text-gray-700 mb-4">
-            We offer reliable and secure gold loan services for individuals and businesses in need of quick financial assistance. With minimal paperwork and fast disbursal, Omsai GoldLoan is a trusted name in your financial emergencies.
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A] text-white py-20 px-4">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-7xl mx-auto text-center">
+          <div className="flex justify-center gap-4 mb-6">
+            <div className="text-5xl text-[#ffd700] animate-float">
+              <GiGoldBar />
+            </div>
+            <div className="text-5xl text-[#ffd700] animate-float" style={{ animationDelay: '0.5s' }}>
+              <GiDiamondRing />
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
+            Our <span className="text-[#ffd700]">Premium</span> Services
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed animate-slide-up">
+            At OmSai, we offer a perfect combination of trusted gold loan services and exquisite jewelry craftsmanship.
+            Discover our comprehensive range of financial and jewelry solutions.
           </p>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li>Instant gold loan approval & disbursal</li>
-            <li>Minimum documentation</li>
-            <li>Safe & secure storage of gold ornaments</li>
-            <li>Transparent interest rates</li>
-            <li>Flexible repayment options</li>
-            <li>Friendly and professional customer support</li>
-          </ul>
         </div>
+      </div>
 
-        {/* Jewellery Services */}
-        <div className="bg-yellow-50 rounded-xl p-6 shadow-md">
-          <h2 className="text-2xl font-semibold text-yellow-700 mb-4">💎 Omsai Jeweller's Services</h2>
-          <p className="text-gray-700 mb-4">
-            As a trusted jewellery store, Omsai Jeweller's offers high-quality gold and silver ornaments along with custom design, repair, and manufacturing services. Our commitment to purity and perfection makes us the preferred jeweller for families and generations.
-          </p>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li>Sale of certified gold & silver jewellery</li>
-            <li>Custom jewellery design as per your preference</li>
-            <li>Jewellery manufacturing & repair services</li>
-            <li>Festive & bridal collections</li>
-            <li>916 hallmarked gold, 20-carat gold, and 999 pure silver</li>
-            <li>Affordable making charges and fair pricing</li>
-          </ul>
+      {/* Gold Loan Services Section */}
+      <div className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="flex justify-center mb-6">
+              <div className="text-6xl text-[#9C8E6B] animate-float">
+                <GiGoldBar />
+              </div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Gold Loan Services</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Quick, secure, and reliable gold loan services for all your financial needs.
+              Get instant funds against your gold with transparent processes and competitive rates.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {goldLoanServices.map((service, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 card-hover group"
+              >
+                <div className="text-4xl text-[#9C8E6B] mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <service.icon />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">{service.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{service.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Gold Loan Process */}
+          <div className="bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A] rounded-3xl p-8 md:p-12 text-white">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl md:text-4xl font-bold mb-4">Simple 3-Step Process</h3>
+              <p className="text-xl text-gray-200">Get your gold loan in just a few minutes</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-[#ffd700] rounded-full flex items-center justify-center text-2xl font-bold text-gray-800 mx-auto mb-4">
+                  1
+                </div>
+                <h4 className="text-xl font-bold mb-2">Bring Your Gold</h4>
+                <p className="text-gray-200">Visit our branch with your gold ornaments and required documents</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-[#ffd700] rounded-full flex items-center justify-center text-2xl font-bold text-gray-800 mx-auto mb-4">
+                  2
+                </div>
+                <h4 className="text-xl font-bold mb-2">Get Evaluation</h4>
+                <p className="text-gray-200">Our experts evaluate your gold and provide instant loan approval</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-[#ffd700] rounded-full flex items-center justify-center text-2xl font-bold text-gray-800 mx-auto mb-4">
+                  3
+                </div>
+                <h4 className="text-xl font-bold mb-2">Receive Funds</h4>
+                <p className="text-gray-200">Get immediate cash disbursement with secure gold storage</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Optional Call to Action */}
-        <div className="text-center mt-16">
-          <h3 className="text-xl font-semibold text-yellow-700 mb-2">Visit Us Today!</h3>
-          <p className="text-gray-700 max-w-2xl mx-auto mb-4">
-            Whether you're looking for a trustworthy gold loan provider or a beautiful piece of jewellery for a special occasion, Omsai is here to help.
+      {/* Jewelry Services Section */}
+      <div className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="flex justify-center mb-6">
+              <div className="text-6xl text-[#9C8E6B] animate-float">
+                <GiDiamondRing />
+              </div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Jewelry Services</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Exquisite jewelry craftsmanship with certified gold and silver ornaments.
+              From custom designs to repairs, we offer comprehensive jewelry solutions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {jewelryServices.map((service, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 card-hover group border border-gray-100"
+              >
+                <div className="text-4xl text-[#9C8E6B] mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <service.icon />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">{service.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{service.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Jewelry Collections */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Our Collections</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="text-2xl text-[#9C8E6B] mt-1">
+                    <GiJewelCrown />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-800 mb-2">Bridal Collection</h4>
+                    <p className="text-gray-600">Stunning bridal sets and wedding jewelry for your special day</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="text-2xl text-[#9C8E6B] mt-1">
+                    <GiTwoCoins />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-800 mb-2">Traditional Designs</h4>
+                    <p className="text-gray-600">Classic and traditional jewelry pieces that never go out of style</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="text-2xl text-[#9C8E6B] mt-1">
+                    <MdStars />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-800 mb-2">Contemporary Styles</h4>
+                    <p className="text-gray-600">Modern and trendy designs for the fashion-forward individual</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-[#9C8E6B]/10 to-[#ffd700]/10 rounded-3xl p-8">
+              <h4 className="text-2xl font-bold text-gray-800 mb-6">Quality Assurance</h4>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <FaCheckCircle className="text-green-500 text-xl" />
+                  <span className="text-gray-700 font-medium">916 Hallmarked Gold</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <FaCheckCircle className="text-green-500 text-xl" />
+                  <span className="text-gray-700 font-medium">999 Pure Silver</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <FaCheckCircle className="text-green-500 text-xl" />
+                  <span className="text-gray-700 font-medium">Certified Authenticity</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <FaCheckCircle className="text-green-500 text-xl" />
+                  <span className="text-gray-700 font-medium">Lifetime Warranty</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="py-20 px-4 bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A]">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="flex justify-center mb-6">
+            <div className="text-6xl text-[#ffd700] animate-float">
+              <FaHeart />
+            </div>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl text-gray-200 mb-8 leading-relaxed">
+            Whether you need a quick gold loan or want to explore our exquisite jewelry collection,
+            we're here to serve you with excellence and trust.
           </p>
-          <Link to="/contact"
-            className="inline-block bg-yellow-600 text-white px-6 py-2 rounded-full hover:bg-yellow-700 transition"
-          >Contact Us</Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/contact"
+              className="btn-hover-effect flex items-center justify-center gap-3 px-8 py-4 bg-[#ffd700] text-gray-800 rounded-xl text-lg font-semibold hover:bg-[#ffed4e] hover:scale-105 transition-all duration-300 shadow-lg"
+            >
+              <FaPhone />
+              Contact Us Today
+            </Link>
+            <Link
+              to="/about"
+              className="btn-hover-effect flex items-center justify-center gap-3 px-8 py-4 bg-white/20 backdrop-blur-lg border border-white/30 text-white rounded-xl text-lg font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 shadow-lg"
+            >
+              <FaArrowRight />
+              Learn More About Us
+            </Link>
+          </div>
+
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-200">
+            <div className="flex items-center gap-2">
+              <FaMapMarkerAlt />
+              <span>Bangalore, Karnataka</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FaPhone />
+              <span>+91 99008 28269</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
