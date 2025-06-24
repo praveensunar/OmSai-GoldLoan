@@ -1,12 +1,14 @@
 import React, { useEffect,useState } from 'react'
 import axios from 'axios'
+import { getApiUrl, getEndpoint } from '../../config/api'
 
 function Users() {
     const [users, setUsers] = useState([])
 
     useEffect(() =>{
-        axios.get('https://omsai-goldloan.onrender.com/getusers')
-        .then(users => setUsers(users.data)) 
+        const getUsersUrl = getApiUrl(getEndpoint('GET_USERS'));
+        axios.get(getUsersUrl)
+        .then(users => setUsers(users.data))
         .catch(error => console.log(error))
     },[]);
   return (

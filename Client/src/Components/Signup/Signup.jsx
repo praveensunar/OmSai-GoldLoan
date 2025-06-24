@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaHouseUser, FaRegUser, FaEnvelope, FaLock, FaPhone } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { IoLogInOutline } from "react-icons/io5";
+import { getApiUrl, getEndpoint } from '../../config/api';
 
 
 function Signup() { 
@@ -14,7 +15,8 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://omsai-goldloan.onrender.com/register', { name, email, password, phone })
+        const registerUrl = getApiUrl(getEndpoint('REGISTER'));
+        axios.post(registerUrl, { name, email, password, phone })
             .then(result => {
                 console.log(result);
                 navigate('/login');

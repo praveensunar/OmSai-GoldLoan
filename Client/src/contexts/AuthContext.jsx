@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { getApiUrl, getEndpoint } from '../config/api';
 
 const AuthContext = createContext();
 
@@ -323,7 +324,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('https://omsai-goldloan.onrender.com/', {
+      const loginUrl = getApiUrl(getEndpoint('LOGIN'));
+      const response = await axios.post(loginUrl, {
         email,
         password
       });
