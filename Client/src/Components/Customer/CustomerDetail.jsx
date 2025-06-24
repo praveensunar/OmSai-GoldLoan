@@ -314,7 +314,7 @@ function CustomerDetail() {
             <div className="flex flex-col xs:flex-row gap-2 xs:gap-3">
               <button
                 onClick={handlePrint}
-                className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-300 text-sm"
+                className="hidden lg:flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-300 text-sm"
               >
                 <MdLocalPrintshop />
                 <span className="hidden xs:inline">Print</span>
@@ -354,8 +354,8 @@ function CustomerDetail() {
           </div>
         </div>
 
-        {/* Customer Table */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden animate-slide-up">
+        {/* Customer Table - Desktop Only */}
+        <div className="hidden lg:block bg-white rounded-2xl shadow-lg overflow-hidden animate-slide-up">
           <div ref={tableRef} className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A] text-white">
@@ -498,8 +498,8 @@ function CustomerDetail() {
           </div>
         </div>
 
-        {/* Mobile Cards */}
-        <div className="lg:hidden space-y-4 mt-8">
+        {/* Mobile/Tablet Cards - Responsive View */}
+        <div className="lg:hidden space-y-4">
           {filteredCustomers.length > 0 ? (
             filteredCustomers.map((customer, index) => (
               <div
