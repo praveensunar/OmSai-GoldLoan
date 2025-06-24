@@ -228,7 +228,7 @@ export const AuthProvider = ({ children }) => {
 
     // Clear all possible authentication-related storage
     const keysToRemove = [
-      'authToken', 'sessionStartTime', 'tokenTimestamp',
+      'authToken', 'userData', 'sessionStartTime', 'tokenTimestamp',
       'user', 'lastActivity', 'sessionWarning'
     ];
 
