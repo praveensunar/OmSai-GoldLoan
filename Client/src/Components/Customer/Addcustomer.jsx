@@ -256,89 +256,29 @@ function Addcustomer() {
     }
   };
 
-  // Camera capture function
-  const captureFromCamera = async () => {
-    try {
-      setUploadProgress(10);
+  // Native camera capture function - opens device camera app
+  const openNativeCamera = () => {
+    // Create a hidden file input with camera capture
+    const cameraInput = document.createElement('input');
+    cameraInput.type = 'file';
+    cameraInput.accept = 'image/*';
+    cameraInput.capture = 'environment'; // Use back camera
+    cameraInput.style.display = 'none';
 
-      // Request camera access
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: 'environment', // Use back camera if available
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
-      });
-
-      // Create video element
-      const video = document.createElement('video');
-      video.srcObject = stream;
-      video.play();
-
-      // Wait for video to be ready
-      await new Promise((resolve) => {
-        video.onloadedmetadata = resolve;
-      });
-
-      // Create canvas to capture frame
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
-
-      // Stop camera stream
-      stream.getTracks().forEach(track => track.stop());
-
-      // Convert to blob
-      canvas.toBlob(async (blob) => {
-        if (blob) {
-          setUploadProgress(30);
-
-          // Upload to Cloudinary
-          const formData = new FormData();
-          formData.append('file', blob, 'camera-capture.jpg');
-          formData.append('upload_preset', 'goldloan_preset');
-          formData.append('folder', 'goldloan_customers');
-
-          try {
-            setUploadProgress(50);
-            const response = await fetch("https://api.cloudinary.com/v1_1/praveensunar/image/upload", {
-              method: 'POST',
-              body: formData
-            });
-
-            if (response.ok) {
-              const result = await response.json();
-              setUploadProgress(100);
-              setImageUrl(result.secure_url || result.url);
-              toast.success("📷 Photo captured and uploaded successfully!");
-              setTimeout(() => setUploadProgress(0), 2000);
-            } else {
-              throw new Error('Upload failed');
-            }
-          } catch (uploadError) {
-            console.error('Upload error:', uploadError);
-            toast.error("Failed to upload captured photo. Please try again.");
-            setUploadProgress(0);
-          }
-        }
-      }, 'image/jpeg', 0.8);
-
-    } catch (error) {
-      console.error('Camera error:', error);
-      setUploadProgress(0);
-
-      if (error.name === 'NotAllowedError') {
-        toast.error("Camera access denied. Please allow camera permission and try again.");
-      } else if (error.name === 'NotFoundError') {
-        toast.error("No camera found on this device.");
-      } else {
-        toast.error("Failed to access camera. Please try uploading from gallery instead.");
+    // Handle the captured photo
+    cameraInput.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        console.log('📷 Photo captured from camera:', file.name);
+        handleFileUpload({ target: { files: [file] } });
       }
-    }
+      // Clean up
+      document.body.removeChild(cameraInput);
+    };
 
-    setShowImageOptions(false);
+    // Add to DOM and trigger click
+    document.body.appendChild(cameraInput);
+    cameraInput.click();
   };
 
   // Test Cloudinary configuration
@@ -724,18 +664,35 @@ function Addcustomer() {
                     {isMobile ? (
                       // Mobile: Show camera and gallery options
                       <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        {/* Native Camera Button */}
                         <button
                           type="button"
-                          onClick={captureFromCamera}
+                          onClick={openNativeCamera}
                           disabled={uploadProgress > 0 && uploadProgress < 100}
                           className="flex items-center justify-center gap-2 px-6 py-3 bg-[#9C8E6B] text-white rounded-xl hover:bg-[#8B7D5A] transition-colors duration-300 disabled:opacity-50"
                         >
                           <MdCameraAlt className="text-lg" />
-                          Take Photo
+                          📷 Open Camera
                         </button>
+
+                        {/* Alternative: Direct Camera Input */}
+                        <label className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors duration-300 cursor-pointer">
+                          <MdCameraAlt className="text-lg" />
+                          📸 Take Photo
+                          <input
+                            type="file"
+                            onChange={handleFileUpload}
+                            accept="image/*"
+                            capture="environment"
+                            className="hidden"
+                            disabled={uploadProgress > 0 && uploadProgress < 100}
+                          />
+                        </label>
+
+                        {/* Gallery Option */}
                         <label className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
                           <MdPhotoLibrary className="text-lg" />
-                          Choose from Gallery
+                          📁 Gallery
                           <input
                             type="file"
                             onChange={handleFileUpload}
@@ -764,7 +721,7 @@ function Addcustomer() {
                   </div>
 
                   <p className="text-sm text-gray-500 mt-2">
-                    {isMobile ? 'Take a photo or choose from gallery' : 'JPEG, PNG, GIF, WebP up to 10MB (auto-compressed for upload)'}
+                    {isMobile ? '📷 Open Camera: Opens camera app | 📸 Take Photo: Quick capture | 📁 Gallery: Choose existing photo' : 'JPEG, PNG, GIF, WebP up to 10MB (auto-compressed for upload)'}
                   </p>
                   {uploadProgress > 0 && uploadProgress < 100 && (
                     <p className="text-sm text-blue-600 mt-2 font-medium">Uploading: {uploadProgress}%</p>
