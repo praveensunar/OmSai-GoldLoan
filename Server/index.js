@@ -25,6 +25,11 @@ const corsOptions = {
       return callback(null, true);
     }
 
+    // Allow localhost for development (any port)
+    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+
     // Allow any Netlify preview URL
     if (origin.includes('netlify.app')) {
       return callback(null, true);
@@ -35,6 +40,7 @@ const corsOptions = {
       return callback(null, true);
     }
 
+    console.log('CORS blocked origin:', origin);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
@@ -106,6 +112,35 @@ app.post('/addcustomer', verifyToken, (req,res)=>{
     .then(GoldloanCustomers=>res.json(GoldloanCustomers))
     .catch(err=>res.status(400).json(err));
 })
+
+// Root route for health check
+app.get('/', (req, res) => {
+    res.json({
+        message: "🎉 ✨ Om Sai Gold Loan API Server is running successfully! 🚀",
+        status: "active",
+        timestamp: new Date().toISOString(),
+        version: "1.0.0",
+        environment: process.env.NODE_ENV || 'development',
+        endpoints: {
+            login: "POST /",
+            customers: "GET /customerdetail",
+            addCustomer: "POST /addcustomer",
+            updateCustomer: "PUT /updatecustomer/:id",
+            deleteCustomer: "DELETE /customer/:id",
+            verifyToken: "GET /verify-token"
+        }
+    });
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        message: 'Server is healthy',
+        timestamp: new Date().toISOString()
+    });
+});
+
 app.post('/',(req,res)=>{
     try{
         const {email,password} = req.body;
