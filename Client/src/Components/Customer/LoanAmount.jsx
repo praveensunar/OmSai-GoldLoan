@@ -40,9 +40,14 @@ function LoanAmount() {
       const response = await axios.get('/api/customerdetail', {
         timeout: 10000 // 10 second timeout
       });
-      setCustomers(response.data);
-      calculateTotals(response.data);
-      calculateStats(response.data);
+
+      // Ensure response.data is an array
+      const customerData = Array.isArray(response.data) ? response.data : [];
+      console.log('Customer data received:', customerData);
+
+      setCustomers(customerData);
+      calculateTotals(customerData);
+      calculateStats(customerData);
     } catch (error) {
       console.error('Error fetching loan data:', error);
 

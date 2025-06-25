@@ -42,8 +42,13 @@ function CustomerDetail() {
       const response = await axios.get('/api/customerdetail', {
         timeout: 15000 // 15 second timeout
       });
-      setCustomers(response.data);
-      setFilteredCustomers(response.data);
+
+      // Ensure response.data is an array
+      const customerData = Array.isArray(response.data) ? response.data : [];
+      console.log('Customer data received:', customerData);
+
+      setCustomers(customerData);
+      setFilteredCustomers(customerData);
     } catch (error) {
       console.error('Error fetching customers:', error);
 

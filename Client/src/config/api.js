@@ -3,7 +3,7 @@ const API_CONFIG = {
   // Base URL - check if we're in development or production
   BASE_URL: import.meta.env.VITE_NODE_ENV === 'development'
     ? '/api'  // Use proxy in development
-    : import.meta.env.VITE_API_PRODUCTION_URL || 'https://omsai-goldloan.onrender.com',
+    : import.meta.env.VITE_API_BASE_URL || 'https://omsai-goldloan.onrender.com',
 
   // API Endpoints
   ENDPOINTS: {

@@ -193,9 +193,16 @@ app.post('/',(req,res)=>{
 
 
 app.get('/customerdetail', verifyToken, (req,res)=>{
+    console.log('📋 Fetching customer details...');
     GoldloancustomerModel.find({})
-   .then(GoldloanCustomers=>res.json(GoldloanCustomers))
-   .catch(err=>res.status(500).json({message: "Error fetching customers: " + err.message}));
+   .then(GoldloanCustomers=>{
+       console.log(`✅ Found ${GoldloanCustomers.length} customers`);
+       res.json(GoldloanCustomers);
+   })
+   .catch(err=>{
+       console.error('❌ Error fetching customers:', err);
+       res.status(500).json({message: "Error fetching customers: " + err.message});
+   });
 })
 
 app.get('/customer/:id', verifyToken, async (req, res) => {
