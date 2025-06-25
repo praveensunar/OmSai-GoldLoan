@@ -56,7 +56,7 @@ function Viewcustomer() {
                 resetAutoLogout();
 
                 console.log(`Fetching customer ${id}`);
-                const response = await axios.get(`/api/customer/${id}`, {
+                const response = await axios.get(`https://omsai-goldloan.onrender.com/customer/${id}`, {
                     timeout: 15000 // 15 second timeout
                 });
                 console.log('Customer data received:', response.data);
@@ -247,7 +247,7 @@ function Viewcustomer() {
             try {
                 setDeleting(true);
                 resetAutoLogout();
-                await axios.delete(`/api/customer/${id}`);
+                await axios.delete(`https://omsai-goldloan.onrender.com/customer/${id}`);
                 toast.success("Customer deleted successfully!");
                 setTimeout(() => navigate('/customerdetail'), 1500);
             } catch (error) {

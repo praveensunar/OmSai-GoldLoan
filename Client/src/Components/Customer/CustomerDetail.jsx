@@ -39,7 +39,7 @@ function CustomerDetail() {
       resetAutoLogout();
       console.log('Fetching customers...');
 
-      const response = await axios.get('/api/customerdetail', {
+      const response = await axios.get('https://omsai-goldloan.onrender.com/customerdetail', {
         timeout: 15000 // 15 second timeout
       });
 

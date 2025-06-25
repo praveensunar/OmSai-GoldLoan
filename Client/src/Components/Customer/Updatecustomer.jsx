@@ -25,7 +25,7 @@ function UpdateCustomer() {
         resetAutoLogout();
         console.log(`Fetching customer for update: ${id}`);
 
-        const response = await axios.get(`/api/customer/${id}`, {
+        const response = await axios.get(`https://omsai-goldloan.onrender.com/customer/${id}`, {
           timeout: 15000 // 15 second timeout
         });
         setCustomer(response.data);
@@ -97,7 +97,7 @@ function UpdateCustomer() {
     resetAutoLogout();
 
     try {
-      await axios.put(`/api/updatecustomer/${id}`, customer, {
+      await axios.put(`https://omsai-goldloan.onrender.com/updatecustomer/${id}`, customer, {
         timeout: 15000 // 15 second timeout
       });
       toast.success("Customer updated successfully!");

@@ -157,7 +157,7 @@ function Addcustomer() {
     });
 
     try {
-      await axios.post('/api/addcustomer', {
+      await axios.post('https://omsai-goldloan.onrender.com/addcustomer', {
         name: name.trim(),
         mobile: mobile.trim(),
         address: address.trim(),

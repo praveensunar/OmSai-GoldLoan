@@ -37,7 +37,7 @@ function LoanAmount() {
       resetAutoLogout();
       console.log(`Fetching loan data, attempt ${retryCount + 1}`);
 
-      const response = await axios.get('/api/customerdetail', {
+      const response = await axios.get('https://omsai-goldloan.onrender.com/customerdetail', {
         timeout: 10000 // 10 second timeout
       });
 
