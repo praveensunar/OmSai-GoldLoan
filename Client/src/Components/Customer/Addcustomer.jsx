@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GiShakingHands, GiGoldBar } from "react-icons/gi";
-import { MdBackspace, MdOutlineSaveAlt, MdPerson, MdPhone, MdLocationOn, MdAttachMoney, MdPercent, MdDateRange, MdCloudUpload } from 'react-icons/md';
+import { MdBackspace, MdOutlineSaveAlt, MdPerson, MdPhone, MdLocationOn, MdAttachMoney, MdPercent, MdDateRange, MdCloudUpload, MdCameraAlt, MdPhotoLibrary } from 'react-icons/md';
 import { FaSpinner, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -24,8 +24,22 @@ function Addcustomer() {
   const [errors, setErrors] = useState({});
   const [showValidationModal, setShowValidationModal] = useState(false);
   const [validationErrors, setValidationErrors] = useState([]);
+  const [showImageOptions, setShowImageOptions] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const { resetAutoLogout } = useAuth();
+
+  // Detect mobile device and camera support
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+      const hasCamera = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+      setIsMobile(isMobileDevice && hasCamera);
+    };
+
+    checkMobile();
+  }, []);
 
   // Check if form has unsaved changes (only meaningful data, not empty strings)
   const hasUnsavedChanges = Boolean(
@@ -240,6 +254,91 @@ function Addcustomer() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Camera capture function
+  const captureFromCamera = async () => {
+    try {
+      setUploadProgress(10);
+
+      // Request camera access
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: 'environment', // Use back camera if available
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        }
+      });
+
+      // Create video element
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.play();
+
+      // Wait for video to be ready
+      await new Promise((resolve) => {
+        video.onloadedmetadata = resolve;
+      });
+
+      // Create canvas to capture frame
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+
+      // Stop camera stream
+      stream.getTracks().forEach(track => track.stop());
+
+      // Convert to blob
+      canvas.toBlob(async (blob) => {
+        if (blob) {
+          setUploadProgress(30);
+
+          // Upload to Cloudinary
+          const formData = new FormData();
+          formData.append('file', blob, 'camera-capture.jpg');
+          formData.append('upload_preset', 'goldloan_preset');
+          formData.append('folder', 'goldloan_customers');
+
+          try {
+            setUploadProgress(50);
+            const response = await fetch("https://api.cloudinary.com/v1_1/praveensunar/image/upload", {
+              method: 'POST',
+              body: formData
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              setUploadProgress(100);
+              setImageUrl(result.secure_url || result.url);
+              toast.success("📷 Photo captured and uploaded successfully!");
+              setTimeout(() => setUploadProgress(0), 2000);
+            } else {
+              throw new Error('Upload failed');
+            }
+          } catch (uploadError) {
+            console.error('Upload error:', uploadError);
+            toast.error("Failed to upload captured photo. Please try again.");
+            setUploadProgress(0);
+          }
+        }
+      }, 'image/jpeg', 0.8);
+
+    } catch (error) {
+      console.error('Camera error:', error);
+      setUploadProgress(0);
+
+      if (error.name === 'NotAllowedError') {
+        toast.error("Camera access denied. Please allow camera permission and try again.");
+      } else if (error.name === 'NotFoundError') {
+        toast.error("No camera found on this device.");
+      } else {
+        toast.error("Failed to access camera. Please try uploading from gallery instead.");
+      }
+    }
+
+    setShowImageOptions(false);
   };
 
   // Test Cloudinary configuration
@@ -620,20 +719,53 @@ function Addcustomer() {
                   <MdCloudUpload className={`mx-auto text-4xl mb-4 ${
                     uploadProgress > 0 && uploadProgress < 100 ? 'text-blue-500' : 'text-gray-400'
                   }`} />
-                  <label className="cursor-pointer">
-                    <span className="text-[#9C8E6B] font-medium hover:text-[#8B7D5A]">
-                      {uploadProgress > 0 && uploadProgress < 100 ? 'Uploading...' : 'Click to upload'}
-                    </span>
-                    <span className="text-gray-500"> or drag and drop</span>
-                    <input
-                      type="file"
-                      onChange={handleFileUpload}
-                      accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-                      className="hidden"
-                      disabled={uploadProgress > 0 && uploadProgress < 100}
-                    />
-                  </label>
-                  <p className="text-sm text-gray-500 mt-2">JPEG, PNG, GIF, WebP up to 10MB (auto-compressed for upload)</p>
+                  {/* Upload Options */}
+                  <div className="space-y-3">
+                    {isMobile ? (
+                      // Mobile: Show camera and gallery options
+                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <button
+                          type="button"
+                          onClick={captureFromCamera}
+                          disabled={uploadProgress > 0 && uploadProgress < 100}
+                          className="flex items-center justify-center gap-2 px-6 py-3 bg-[#9C8E6B] text-white rounded-xl hover:bg-[#8B7D5A] transition-colors duration-300 disabled:opacity-50"
+                        >
+                          <MdCameraAlt className="text-lg" />
+                          Take Photo
+                        </button>
+                        <label className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
+                          <MdPhotoLibrary className="text-lg" />
+                          Choose from Gallery
+                          <input
+                            type="file"
+                            onChange={handleFileUpload}
+                            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                            className="hidden"
+                            disabled={uploadProgress > 0 && uploadProgress < 100}
+                          />
+                        </label>
+                      </div>
+                    ) : (
+                      // Desktop: Traditional file upload
+                      <label className="cursor-pointer">
+                        <span className="text-[#9C8E6B] font-medium hover:text-[#8B7D5A]">
+                          {uploadProgress > 0 && uploadProgress < 100 ? 'Uploading...' : 'Click to upload'}
+                        </span>
+                        <span className="text-gray-500"> or drag and drop</span>
+                        <input
+                          type="file"
+                          onChange={handleFileUpload}
+                          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                          className="hidden"
+                          disabled={uploadProgress > 0 && uploadProgress < 100}
+                        />
+                      </label>
+                    )}
+                  </div>
+
+                  <p className="text-sm text-gray-500 mt-2">
+                    {isMobile ? 'Take a photo or choose from gallery' : 'JPEG, PNG, GIF, WebP up to 10MB (auto-compressed for upload)'}
+                  </p>
                   {uploadProgress > 0 && uploadProgress < 100 && (
                     <p className="text-sm text-blue-600 mt-2 font-medium">Uploading: {uploadProgress}%</p>
                   )}
