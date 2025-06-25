@@ -142,6 +142,35 @@ app.get('/health', (req, res) => {
     });
 });
 
+// Debug endpoint to check collections
+app.get('/debug/collections', async (req, res) => {
+    try {
+        const collections = await mongoose.connection.db.listCollections().toArray();
+        const collectionInfo = [];
+
+        for (const collection of collections) {
+            const count = await mongoose.connection.db.collection(collection.name).countDocuments();
+            const sampleDoc = await mongoose.connection.db.collection(collection.name).findOne();
+            collectionInfo.push({
+                name: collection.name,
+                count: count,
+                sampleFields: sampleDoc ? Object.keys(sampleDoc) : []
+            });
+        }
+
+        res.json({
+            totalCollections: collections.length,
+            collections: collectionInfo,
+            currentModel: {
+                name: 'GoldloancustomerModel',
+                collection: GoldloancustomerModel.collection.name
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.post('/',(req,res)=>{
     try{
         const {email,password} = req.body;

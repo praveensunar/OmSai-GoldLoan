@@ -15,5 +15,6 @@ const CustomerSchema = new mongoose.Schema({
     status: String,
     imageUrl: String,
 },{timestamps:true})
-const GoldloancustomerModel = mongoose.model("Goldloancustomers",CustomerSchema)
+// Try different possible collection names
+const GoldloancustomerModel = mongoose.model("Goldloancustomers", CustomerSchema, "goldloancustomers");
 module.exports = GoldloancustomerModel
