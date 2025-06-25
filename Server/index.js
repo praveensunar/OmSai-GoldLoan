@@ -40,7 +40,8 @@ const corsOptions = {
       return callback(null, true);
     }
 
-    console.log('CORS blocked origin:', origin);
+    console.log('❌ CORS blocked origin:', origin);
+    console.log('📋 Allowed origins:', allowedOrigins);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
