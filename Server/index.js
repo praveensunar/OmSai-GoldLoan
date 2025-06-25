@@ -193,17 +193,34 @@ app.post('/',(req,res)=>{
 // })
 
 
-app.get('/customerdetail', verifyToken, (req,res)=>{
-    console.log('📋 Fetching customer details...');
-    GoldloancustomerModel.find({})
-   .then(GoldloanCustomers=>{
-       console.log(`✅ Found ${GoldloanCustomers.length} customers`);
-       res.json(GoldloanCustomers);
-   })
-   .catch(err=>{
-       console.error('❌ Error fetching customers:', err);
-       res.status(500).json({message: "Error fetching customers: " + err.message});
-   });
+app.get('/customerdetail', verifyToken, async (req,res)=>{
+    try {
+        console.log('📋 Fetching customer details...');
+        console.log('🔍 Collection name:', GoldloancustomerModel.collection.name);
+
+        // Check all collections in database
+        const collections = await mongoose.connection.db.listCollections().toArray();
+        console.log('📊 Available collections:', collections.map(c => c.name));
+
+        const customers = await GoldloancustomerModel.find({});
+        console.log(`✅ Found ${customers.length} customers in ${GoldloancustomerModel.collection.name}`);
+
+        // If no customers found, try to find in other collections
+        if (customers.length === 0) {
+            console.log('🔍 Checking for data in other collections...');
+            for (const collection of collections) {
+                if (collection.name.toLowerCase().includes('customer') || collection.name.toLowerCase().includes('goldloan')) {
+                    const count = await mongoose.connection.db.collection(collection.name).countDocuments();
+                    console.log(`📋 Collection "${collection.name}" has ${count} documents`);
+                }
+            }
+        }
+
+        res.json(customers);
+    } catch (err) {
+        console.error('❌ Error fetching customers:', err);
+        res.status(500).json({message: "Error fetching customers: " + err.message});
+    }
 })
 
 app.get('/customer/:id', verifyToken, async (req, res) => {
