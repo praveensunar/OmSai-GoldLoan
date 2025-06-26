@@ -267,10 +267,28 @@ app.get('/customer/:id', verifyToken, async (req, res) => {
 
 app.put('/updatecustomer/:id', verifyToken, async (req, res) => {
     try {
-        const updatedCustomer = await GoldloancustomerModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        console.log(`🔄 Updating customer ${req.params.id}`);
+        console.log('📋 Update data:', req.body);
+
+        const updatedCustomer = await GoldloancustomerModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedCustomer) {
+            console.log(`❌ Customer ${req.params.id} not found`);
+            return res.status(404).json({ message: 'Customer not found' });
+        }
+
+        console.log(`✅ Customer ${req.params.id} updated successfully`);
         res.json(updatedCustomer);
     } catch (error) {
-        res.status(500).json({ error: 'Error updating customer' });
+        console.error(`❌ Error updating customer ${req.params.id}:`, error);
+        res.status(500).json({
+            message: 'Error updating customer',
+            error: error.message
+        });
     }
 });
 

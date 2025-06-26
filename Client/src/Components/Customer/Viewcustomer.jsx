@@ -211,28 +211,48 @@ function Viewcustomer() {
                 const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
                 const updatedCustomer = { ...customer, status: today };
 
-                await axios.put(`/api/updatecustomer/${id}`, updatedCustomer, {
-                    timeout: 15000
+                console.log('🔄 Closing loan for customer:', customer.name);
+                console.log('📅 Setting close date to:', today);
+                console.log('📋 Updated customer data:', updatedCustomer);
+
+                const response = await axios.put(`https://omsai-goldloan.onrender.com/updatecustomer/${id}`, updatedCustomer, {
+                    timeout: 15000,
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
+
+                console.log('✅ Server response:', response.data);
 
                 // Update local state
                 setCustomer(updatedCustomer);
 
                 // Recalculate interest with the new close date
-                // calculateInterest(updatedCustomer);
+                calculateInterest(updatedCustomer);
 
-                toast.success("Loan closed successfully!");
+                toast.success("✅ Loan closed successfully!");
             } catch (error) {
-                console.error("Error closing loan:", error);
+                console.error("❌ Error closing loan:", error);
+                console.error("Error details:", {
+                    message: error.message,
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    code: error.code
+                });
 
                 if (error.code === 'ERR_NETWORK' || error.code === 'ERR_INSUFFICIENT_RESOURCES') {
-                    toast.error("Unable to connect to server. Please check your connection and try again.");
+                    toast.error("❌ Unable to connect to server. Please check your connection and try again.");
                 } else if (error.response?.status === 404) {
-                    toast.error("Customer not found. It may have been deleted.");
+                    toast.error("❌ Customer not found. It may have been deleted.");
+                } else if (error.response?.status === 401) {
+                    toast.error("❌ Authentication failed. Please login again.");
                 } else if (error.code === 'ECONNABORTED') {
-                    toast.error("Request timed out. Please try again.");
+                    toast.error("❌ Request timed out. Please try again.");
+                } else if (error.response?.status === 500) {
+                    toast.error("❌ Server error. Please try again later.");
                 } else {
-                    toast.error("Failed to close loan. Please try again.");
+                    toast.error(`❌ Failed to close loan: ${error.response?.data?.message || error.message}`);
                 }
             } finally {
                 setClosingLoan(false);
