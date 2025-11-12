@@ -31,7 +31,7 @@ function Footer() {
             <div className="space-y-2 text-gray-300 text-sm">
               <p>📞 +91 99008 28269</p>
               <p>📧 info@omsaigoldloan.com</p>
-              <p>🏢 Bangalore, Karnataka</p>
+              <p>🏢 Kamthana,Bidar, Karnataka</p>
             </div>
           </div>
         </div>
