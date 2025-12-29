@@ -64,7 +64,7 @@ function Footer() {
 
             {/* Copyright Section */}
             <p className="text-xs md:text-sm text-gray-400 text-center md:text-right">
-              © {new Date().getFullYear()} OmSai Gold Loan Services. All Rights Reserved.
+              © {new Date().getFullYear()} OmSai Gold Loan Services. All Rights Reserved.| Developed By Praveen V.
             </p>
           </div>
         </div>
