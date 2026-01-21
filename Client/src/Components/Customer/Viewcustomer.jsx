@@ -211,7 +211,7 @@ function Viewcustomer() {
                 const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
                 const updatedCustomer = { ...customer, status: today };
 
-                await axios.put(`/api/updatecustomer/${id}`, updatedCustomer, {
+                await axios.put(`https://omsai-goldloan.onrender.com/updatecustomer/${id}`, updatedCustomer, {
                     timeout: 15000
                 });
 
