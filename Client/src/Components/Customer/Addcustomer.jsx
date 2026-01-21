@@ -28,7 +28,6 @@ function Addcustomer() {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const { resetAutoLogout } = useAuth();
-  const API_URL = import.meta.env.VITE_API_URL;
 
   // Detect mobile device and camera support
   useEffect(() => {
@@ -169,8 +168,7 @@ function Addcustomer() {
     });
 
     try {
-      // await axios.post('https://omsai-goldloan.onrender.com/addcustomer',
-        await axios.post(`${API_URL}/addcustomer`, 
+      await axios.post('https://omsai-goldloan.onrender.com/addcustomer', 
         {
         name: name.trim(),
         mobile: mobile.trim(),
