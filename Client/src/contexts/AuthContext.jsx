@@ -277,7 +277,7 @@ export const AuthProvider = ({ children }) => {
 
           toast.success('Welcome back! Session restored.', {
             position: "bottom-right",
-            autoClose: 3000,
+            autoClose: 1000,
             hideProgressBar: true,
           });
         } else {

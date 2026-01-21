@@ -267,28 +267,10 @@ app.get('/customer/:id', verifyToken, async (req, res) => {
 
 app.put('/updatecustomer/:id', verifyToken, async (req, res) => {
     try {
-        console.log(`🔄 Updating customer ${req.params.id}`);
-        console.log('📋 Update data:', req.body);
-
-        const updatedCustomer = await GoldloancustomerModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedCustomer) {
-            console.log(`❌ Customer ${req.params.id} not found`);
-            return res.status(404).json({ message: 'Customer not found' });
-        }
-
-        console.log(`✅ Customer ${req.params.id} updated successfully`);
+        const updatedCustomer = await GoldloancustomerModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json(updatedCustomer);
     } catch (error) {
-        console.error(`❌ Error updating customer ${req.params.id}:`, error);
-        res.status(500).json({
-            message: 'Error updating customer',
-            error: error.message
-        });
+        res.status(500).json({ error: 'Error updating customer' });
     }
 });
 
@@ -314,5 +296,3 @@ app.listen(PORT, () => {
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`📊 Database: ${process.env.NODE_ENV === 'production' ? 'MongoDB Atlas' : 'Local MongoDB'}`);
 });
-
-

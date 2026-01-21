@@ -53,7 +53,6 @@ function Login() {
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again later.");
-      console.error("Login error:", error);
     } finally {
       setLoading(false);
     }

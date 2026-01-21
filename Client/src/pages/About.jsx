@@ -1,6 +1,8 @@
 import { FaShieldAlt, FaHandshake, FaGem, FaLock, FaUsers, FaCrown, FaCoins, FaAward, FaHeart, FaCheckCircle } from 'react-icons/fa';
 import { GiDiamondRing } from 'react-icons/gi';
 import { MdSecurity, MdVerified } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 // Om Sai Logo Component - Same as navbar and home
 const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
@@ -67,6 +69,26 @@ const OmSaiLogo = ({ className, title = "Om Sai Gold Loan" }) => (
 );
 
 const About = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  // Handle Get Gold Loan button click
+  const handleGetLoan = () => {
+    if (isAuthenticated) {
+      // User is logged in, redirect to add customer page
+      navigate('/addcustomer');
+    } else {
+      // User is not logged in, redirect to login page
+      navigate('/login');
+    }
+  };
+
+  // Handle View Jewelry Collection button click
+  const handleViewJewelry = () => {
+    // Navigate to contact page for jewelry inquiries
+    navigate('/contact');
+  };
+
   const values = [
     { icon: FaShieldAlt, title: "Trust", description: "Built on decades of reliable service and customer satisfaction" },
     { icon: MdVerified, title: "Transparency", description: "Clear processes and honest dealings in every transaction" },
@@ -258,10 +280,16 @@ const About = () => {
             Experience our commitment to excellence, security, and customer satisfaction.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-hover-effect px-8 py-4 bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A] text-white rounded-xl text-lg font-semibold hover:scale-105 transition-all duration-300 shadow-lg">
+            <button
+              onClick={handleGetLoan}
+              className="btn-hover-effect px-8 py-4 bg-gradient-to-r from-[#9C8E6B] to-[#8B7D5A] text-white rounded-xl text-lg font-semibold hover:scale-105 transition-all duration-300 shadow-lg"
+            >
               Get Gold Loan
             </button>
-            <button className="btn-hover-effect px-8 py-4 bg-white border-2 border-[#9C8E6B] text-[#9C8E6B] rounded-xl text-lg font-semibold hover:bg-[#9C8E6B] hover:text-white hover:scale-105 transition-all duration-300 shadow-lg">
+            <button
+              onClick={handleViewJewelry}
+              className="btn-hover-effect px-8 py-4 bg-white border-2 border-[#9C8E6B] text-[#9C8E6B] rounded-xl text-lg font-semibold hover:bg-[#9C8E6B] hover:text-white hover:scale-105 transition-all duration-300 shadow-lg"
+            >
               View Jewelry Collection
             </button>
           </div>

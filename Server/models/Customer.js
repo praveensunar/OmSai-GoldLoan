@@ -1,20 +1,17 @@
 const mongoose = require('mongoose')
 
 const CustomerSchema = new mongoose.Schema({
-    name: String,
-    mobile:{
-        type: 'String',
-        unique:true,
-    },
-    address: String,
-    loanDate: String,
-    loanAmount: String,
-    interestRate: String,
-    itemName: String,
-    itemWeight: String,
-    status: String,
-    imageUrl: String,
-},{timestamps:true})
+    name: { type: String, required: true },
+    mobile: { type: String, required: true }, // remove `unique: true`
+    address: { type: String, required: true },
+    loanAmount: { type: Number, required: true },
+    interestRate: { type: Number, required: true },
+    itemName: { type: String, required: true },
+    itemWeight: { type: Number, required: true },
+    loanDate: { type: Date, required: true },
+    imageUrl: { type: String, default: '' },
+    status: { type: String, default: 'Active' }
+}, { timestamps: true });
 // Try different possible collection names
 const GoldloancustomerModel = mongoose.model("Goldloancustomers", CustomerSchema, "goldloancustomers");
 module.exports = GoldloancustomerModel

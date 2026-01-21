@@ -28,18 +28,23 @@ function Addcustomer() {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const { resetAutoLogout } = useAuth();
+  // const API_URL = import.meta.env.VITE_API_URL;
 
   // Detect mobile device and camera support
   useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-      const hasCamera = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
-      setIsMobile(isMobileDevice && hasCamera);
-    };
+  const checkMobile = async () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
 
-    checkMobile();
-  }, []);
+    // Check if getUserMedia is supported
+    const hasCamera = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+
+    setIsMobile(isMobileDevice && hasCamera);
+  };
+
+  checkMobile();
+}, []);
+
 
   // Check if form has unsaved changes (only meaningful data, not empty strings)
   const hasUnsavedChanges = Boolean(
@@ -171,7 +176,9 @@ function Addcustomer() {
     });
 
     try {
-      await axios.post('https://omsai-goldloan.onrender.com/addcustomer', {
+      await axios.post('https://omsai-goldloan.onrender.com/addcustomer',
+        // await axios.post(`${API_URL}/addcustomer`, 
+        {
         name: name.trim(),
         mobile: mobile.trim(),
         address: address.trim(),
