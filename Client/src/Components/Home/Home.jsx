@@ -137,12 +137,12 @@ function Home() {
               <FaCircle className={`text-xs ${getStatusColor()}`} />
               <span className="text-gray-600">{getStatusText()}</span>
             </div>
-
+    
             {/* Session Status */}
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <span className="text-gray-600">Session:</span>
               <SessionStatus />
-            </div>
+            </div> */}
           </div>
         </div>
 

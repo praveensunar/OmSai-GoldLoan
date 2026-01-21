@@ -28,7 +28,7 @@ function Addcustomer() {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const { resetAutoLogout } = useAuth();
-  // const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Detect mobile device and camera support
   useEffect(() => {
@@ -154,15 +154,8 @@ function Addcustomer() {
     // TEMPORARY: Development mode fallback for CORS issues
     const isDevelopment = window.location.hostname === 'localhost';
 
-    // Debug: Log the exact values being processed
-    console.log('Form values before processing:', {
-      itemWeight: itemWeight,
-      itemWeightType: typeof itemWeight,
-      interestRate: interestRate,
-      interestRateType: typeof interestRate,
-      loanAmount: loanAmount,
-      loanAmountType: typeof loanAmount
-    });
+
+
 
     // Process values with proper decimal handling
     const processedLoanAmount = Number(parseFloat(loanAmount).toFixed(2));
@@ -176,8 +169,8 @@ function Addcustomer() {
     });
 
     try {
-      await axios.post('https://omsai-goldloan.onrender.com/addcustomer',
-        // await axios.post(`${API_URL}/addcustomer`, 
+      // await axios.post('https://omsai-goldloan.onrender.com/addcustomer',
+        await axios.post(`${API_URL}/addcustomer`, 
         {
         name: name.trim(),
         mobile: mobile.trim(),
@@ -245,19 +238,17 @@ function Addcustomer() {
       // Handle different types of errors for production
       if (error.code === 'ERR_NETWORK' || error.code === 'ERR_INSUFFICIENT_RESOURCES') {
         toast.error("Unable to connect to server. Please check your connection and try again.");
-      } else if (error.response?.status === 413) {
+    } else if (error.response?.status === 413) {
         toast.error("Data too large! Please use a smaller image (under 2MB) and try again.");
-      } else if (error.message?.includes('CORS') || error.message?.includes('Access-Control-Allow-Origin')) {
+    } else if (error.message?.includes('CORS') || error.message?.includes('Access-Control-Allow-Origin')) {
         toast.error("Server configuration issue (CORS). Please contact administrator or try again later.");
-      } else if (error.response?.status === 400) {
-        toast.error("Mobile number is already registered or invalid data provided.");
-      } else if (error.code === 'ECONNABORTED') {
+    } else if (error.code === 'ECONNABORTED') {
         toast.error("Request timed out. Please try again.");
-      } else if (error.response?.status === 500) {
+    } else if (error.response?.status === 500) {
         toast.error("Server error. Please try again later.");
-      } else {
+    } else {
         toast.error("Failed to add customer. Please try again.");
-      }
+    }
     } finally {
       setLoading(false);
     }
@@ -356,7 +347,6 @@ function Addcustomer() {
       setUploadProgress(10);
       resetAutoLogout();
 
-      console.log('Starting image upload...');
       console.log('Original file details:', {
         name: file.name,
         size: file.size,

@@ -108,11 +108,17 @@ app.post('/verify-token', (req, res) => {
     }
 });
 
-app.post('/addcustomer', verifyToken, (req,res)=>{
-    GoldloancustomerModel.create(req.body)
-    .then(GoldloanCustomers=>res.json(GoldloanCustomers))
-    .catch(err=>res.status(400).json(err));
-})
+app.post('/addcustomer', verifyToken, async (req, res) => {
+  try {
+    const customer = await GoldloancustomerModel.create(req.body);
+    res.json(customer);
+  } catch (err) {
+    console.error("Add customer error:", err);
+    // Send clear message for frontend
+    res.status(400).json({ message: err.message, errors: err.errors });
+  }
+});
+
 
 // Root route for health check
 app.get('/', (req, res) => {

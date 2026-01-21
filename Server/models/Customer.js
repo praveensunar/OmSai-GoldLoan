@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const CustomerSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    mobile: { type: String, required: true }, // remove `unique: true`
+    mobile: { type: String, required: true },
     address: { type: String, required: true },
     loanAmount: { type: Number, required: true },
     interestRate: { type: Number, required: true },

@@ -319,10 +319,10 @@ function CustomerDetail() {
             <div className="flex flex-col xs:flex-row gap-2 xs:gap-3">
               <button
                 onClick={handlePrint}
-                className="hidden lg:flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-300 text-sm"
+                className=" flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-300 text-sm"
               >
                 <MdLocalPrintshop />
-                <span className="hidden xs:inline">Print</span>
+                <span className="">Print</span>
               </button>
 
               <BackToHome
@@ -333,7 +333,7 @@ function CustomerDetail() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+          <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
             <div className="text-center p-2 sm:p-3 bg-blue-50 rounded-lg">
               <div className="text-lg sm:text-2xl font-bold text-blue-600">{customers.length}</div>
               <div className="text-xs sm:text-sm text-gray-600">Total Customers</div>
@@ -350,6 +350,19 @@ function CustomerDetail() {
               </div>
               <div className="text-xs sm:text-sm text-gray-600">Pending (6+ months)</div>
             </div>
+
+            <div className="text-center p-2 sm:p-3 bg-red-50 rounded-lg">
+        <div className="text-lg sm:text-2xl font-bold text-red-600">
+          {
+            customers.length -
+            (
+              customers.filter(c => getEffectiveStatus(c).toLowerCase() === 'active').length +
+              customers.filter(c => getEffectiveStatus(c).toLowerCase() === 'pending').length
+            )
+          }
+        </div>
+        <div className="text-xs sm:text-sm text-gray-600">Closed Loans</div>
+      </div>        
             <div className="text-center p-2 sm:p-3 bg-purple-50 rounded-lg col-span-2 lg:col-span-1">
               <div className="text-lg sm:text-2xl font-bold text-purple-600">
                 ₹{customers.reduce((sum, c) => sum + (parseFloat(c.loanAmount) || 0), 0).toLocaleString()}

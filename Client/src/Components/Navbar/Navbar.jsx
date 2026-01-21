@@ -126,11 +126,11 @@ function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-2">
           {/* Session Status for authenticated users */}
-          {isAuthenticated() && (
+          {/* {isAuthenticated() && (
             <div className="mr-4">
               <SessionStatus />
             </div>
-          )}
+          )} */}
           <Link
             to="/"
             className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all duration-300 relative group ${
